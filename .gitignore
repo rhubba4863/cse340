@@ -12,5 +12,11 @@ node_modules
 # will be manually created by you or dynamically # created on the hosting server
 .env
 
+#ignore the lock yaml file
+pnpm-lock.jmal
+
 # .DS_Store is only for Mac users
 **/.DS_Store
+
+# RPH 
+README.md
