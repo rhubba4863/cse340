@@ -52,14 +52,12 @@ header{
 
 /******** Heading Links ********/
 nav#top-black-bar{
-  /* background-color: green; */
   display: flex;
   align-items: flex-start;
 }
 
 .header-link-options {
   display: flex;
-  /* flex-wrap: wrap; */
   justify-content: center;
   align-items: center;
 
@@ -72,13 +70,10 @@ nav#top-black-bar{
 
 ul.header-link-options li{
   display: inline-block;
-  /* color: white; */
-  color: red;
+  color: white;
   text-align: center;
-  /* padding: 14px 16px;  */
   padding: 14px 4.5%; 
   /*top/bottum then left/right*/
-
   margin-left: 0px;
 }
 
@@ -87,11 +82,9 @@ ul.header-link-options li{
   /* And Child as "Absolute" */
 }
 
-
 #car-display{
-  /* position: relative; */
   height: 100%;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 main{
@@ -99,77 +92,77 @@ main{
 }
 
 .vehicle-image{
-  /* position: absolute; */
   width: 60%;
+  /* width: 200; */
+
   height: auto;
 
   display: block;
   margin-left: 18%;
 
-  /* left: 18%; */
- 
-  /* Method 2) */
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
-
+  /* Place behind car features */
   z-index: 2;
-  /* margin-bottom: 100px; */
 }
 
 .car-feature-box{
   position: absolute;
-  display: absolute;
-  /* bottom: 8px; */
-
+  display: block;
   top: 200px;
   left: 5%;
 
   border: 3px solid #442dad;
   width: 200px;
   height: auto;
-  /* background-color: blue; */
-  /* opacity: 0.3;  */
-  /* background: rgba(255,255,255,0.5); */
-  /* hsla(0, 0%, 100%, 0.5); */
-
+ 
   background-color: #fff;
   background-color: rgba(255,255,255,0.562);
   
+
+  /* Place car features before car picture*/
   z-index:8;
 }
 
 .car-features{
   color: #333;
 
-  /* opacity: 1; */
-  /* z-index:10;  */
+  padding-left: 0;
+  margin: 0;
 }
-
-
 
 ul.car-features{
   /* Remove Bullets */
   list-style-type: none;
 }
 
-#thoughts-and-upgrades{
-  /* position: relative; */
-
-  display: flex;
-  flex-wrap: wrap;
-  /* justify-content: center;
-  align-items: center; */
+#own-button{
+ background-color: aqua;
 }
 
+#thoughts-and-upgrades{
+  display: flex;
+  /* flex-direction: column-reverse; */
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 550px) {
+  #thoughts-and-upgrades{
+    flex-direction: column-reverse;
+  }
+}
+
+/* @media screen and (min-width: 800px) {
+  #thoughts-and-upgrades{
+    flex-direction: row;
+  }
+} */
+
 .upgrade-box{
-  /* position: relative;
-  display: inline-block; */
   border: 3px solid #73AD21;
-  /* width: 40%; */
   width: 250px;
-  height: 200px;
+  height: 185px;
 }
 
 .upgrades{
@@ -179,11 +172,21 @@ ul.car-features{
   align-items: center;
 
   padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .full-upgrade{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.upgrade-display-square{
   width: 110px;
-  height: 75px;
+  height: 60px;
+  margin: 5px;
   border: 3px solid yellow;
   background-color: aqua;
   color: blue;
@@ -196,8 +199,6 @@ ul.car-features{
 
 .upgrade{
   height: 50%;
-  /* object-fit: contain;   */
-  /*fill*/
   background-size: contain;
 }
 
@@ -206,6 +207,7 @@ ul.car-features{
   display: inline-block;
   border: 3px solid #732D21;
   width: 250px;
+  top: 0;
 }
 
 .reviews{
