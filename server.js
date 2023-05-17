@@ -10,6 +10,9 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 
+const baseController = require("./controllers/baseController") //RPH 2
+
+
 /* ***********************
  * View Engine and Templates
  *************************/
@@ -23,9 +26,14 @@ app.set("layout", "./layouts/layout") // not at views root
 app.use(require("./routes/static"))
 
 //Index route
-app.get("/", function(req, res){
-  res.render("index", {title:"home"})
-})
+// app.get("/", function(req, res){
+//   res.render("index", {title:"home"})
+// })
+
+app.get("/", baseController.buildHome) //RPH 2
+
+// Inventory routes
+app.use("/inv", require("./routes/inventoryRoute"))
 
 /* ***********************
  * Local Server Information
@@ -38,5 +46,6 @@ const host = process.env.HOST
  * Log statement to confirm server operation
  *************************/
 app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`)
+  // console.log(`app listening on ${host}:${port}`)
+  console.log(`app listening on http://${host}:${port}`)
 })
