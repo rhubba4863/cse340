@@ -1,3 +1,4 @@
+//START ACCESS TO THE POOL
 const pool = require("../database/")
 
 /* ***************************

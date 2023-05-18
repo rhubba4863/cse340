@@ -25,8 +25,6 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-module.exports = Util
-
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
@@ -59,3 +57,6 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+//NOTE - ALWAYS LAST STEP - RPH/TEACHER
+module.exports = Util
