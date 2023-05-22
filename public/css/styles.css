@@ -19,8 +19,12 @@ body{
   border: 3px solid skyblue;
   padding: 3px;
 
-  top: 50%;
-  left: 50%; 
+  /* top: 50%;
+  left: 50%;  */
+  
+  max-width: 65em;
+  margin: 0 auto;
+  
 }
 
 /******* Top Header******FIXED**/
@@ -65,17 +69,21 @@ nav#top-black-bar{
   /* Remove the extra left-lump where a bullet would go */
   margin-left: 0px;
   padding-left: 0;
-  background-color: #333;   
+  background-color: #333;  
 }
 
 ul.header-link-options li{
   display: inline-block;
-  color: white;
   text-align: center;
   padding: 14px 4.5%; 
   /*top/bottum then left/right*/
   margin-left: 0px;
 }
+
+ul.header-link-options li a{
+color: white;
+}
+
 
 .container{
   position: relative;
@@ -105,7 +113,7 @@ main{
 }
 
 .car-feature-box{
-  position: absolute;
+  /* position: absolute; */
   display: block;
   top: 200px;
   left: 5%;
@@ -214,3 +222,31 @@ ul.car-features{
   padding-left: 10px;
   margin-left: 20px;
 }
+
+/************************ 
+2nd Lvl: Car modals Shown 
+*************************/
+/* INCOMPLETE */
+.inv-display{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+ margin-left: 0px;
+  padding-left: 0;
+
+  
+}
+
+/* INCOMPLETE */
+.car-modal{
+  /* Remove the extra left-lump where a bullet would go */
+ list-style-type: none; 
+ /* Remove the extra left-lump where a bullet would go */
+ margin-left: 0px;
+ padding-left: 0px;
+}
+
+/************************ 
+3rd Lvl: a Car's Information 
+*************************/

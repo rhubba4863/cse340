@@ -1,4 +1,4 @@
-// RPH: WEEk 3
+// RPH: WEEK 3
 
 const { Pool } = require("pg");
 require("dotenv").config();

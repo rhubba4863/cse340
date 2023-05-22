@@ -3,8 +3,8 @@ const Util = {}
 
 /* ************************
  * Constructs the nav HTML unordered list
+ * RPH: Header links
  ************************** */
-//Edit html tags for CSS
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   let list = "<ul class='header-link-options'>"
@@ -33,7 +33,7 @@ Util.buildClassificationGrid = async function(data){
   if(data.length > 0){
     grid = '<ul id="inv-display">'
     data.forEach(vehicle => { 
-      grid += '<li>'
+      grid += '<li class="car-modal">'
       grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
       + 'details"><img src="' + vehicle.inv_thumbnail 
@@ -57,6 +57,13 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 //NOTE - ALWAYS LAST STEP - RPH/TEACHER
 module.exports = Util
