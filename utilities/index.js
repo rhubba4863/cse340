@@ -58,6 +58,57 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+Util.buildCarDetailView = async function(data){
+  let grid = '<ul id="inv-car-modal">'
+  let pictureSide
+  let detailSide
+
+  pictureSide = '<li class="inv-car-modal-columns"><div>'
+  + '<img id="mainCarPicture" src="'+data.inv_image+'">'
+  + '</div></li>';
+
+  detailSide =  '<li class="inv-car-modal-columns"><div id=mainCarDetails>'
+  + '<div id="infoTitle">About this item</div>'
+  + '<div><span class="bold">Milage: </span>'+
+  new Intl.NumberFormat('en-US').format(data.inv_miles) +'</div>'
+  + '<div><span class="bold">Price: </span>$'+
+  new Intl.NumberFormat('en-US').format(data.inv_price)+'</div>'
+  + '<div><span class="bold">Color: </span>'+data.inv_color+'</div>'
+  + '<div><span class="bold">Description: </span>'+data.inv_description+'</div>'
+  + '<div><span class="bold">Stock Number: </span>'+data.classification_id+'</div>'
+
+  + '</li>';
+
+  grid += pictureSide
+  grid += detailSide
+
+  
+  // grid += '<li class="inv-car-modal-columns">HELP</li>'
+  // grid += '<li class="inv-car-modal-columns">HELP</li>'
+
+  grid += '</ul>'
+
+  // detailSide += '<div>1:'+data.inv_make+'</div>';
+  // detailSide += '<div>2:'+data.inv_model+'</div>';
+  // detailSide += "<div>3:"+data.inv_year+"</div>";
+  detailSide += "<div>4:"+data.inv_description+"</div>";
+  // detailSide += '5<img src="'+data.inv_image+'">'
+  // detailSide += '6<img src="'+data.inv_thumbnail+'">'
+  // detailSide += "<div>7:"+data.inv_price+"</div>"
+  // detailSide += "<div>8:"+data.inv_miles+"</div>"
+  detailSide += "<div>9:"+data.inv_color+"</div>"
+  detailSide += "<div>10:"+data.classification_id+"</div>"
+
+  grid += '<div id=priceBox></div>'
+
+  // grid += pictureSide  
+  // grid += detailSide 
+  return grid;
+   // return "<div>hellow world "+data.inv_make+"</div>"
+}
+
+
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 

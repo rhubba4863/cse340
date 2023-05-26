@@ -18,3 +18,34 @@
 /*
 Add a comment
 */
+
+
+
+
+
+// .header-link-options {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+
+//   overflow: hidden;
+
+//   width: 100%;
+//   //  Remove the extra left-lump where a bullet would go 
+//   margin-left: 0px;
+//   padding-left: 0;
+//   background-color: #333;  
+// }
+//
+/* individual header options */
+// ul.header-link-options li{
+//   display: inline-block;
+//   text-align: center;
+//   padding: 14px 4.5%; 
+//   //top/bottum then left/right
+//   margin-left: 0px;
+// }
+
+// ul.header-link-options li a{
+//   color: white;
+// }

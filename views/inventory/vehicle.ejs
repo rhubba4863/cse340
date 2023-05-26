@@ -1,0 +1,12 @@
+<!-- Content Heading: show the title, else return tp home screen -->
+<% if (title) { %>
+  <h1><%= title %></h1>  
+<% }else {
+  res.redirect('/')
+} %>
+
+<!-- The Message Block: Ex if an error appears -->
+<%# messages() %>
+
+<!-- The Vehicle Info -->
+<%- carDetails %>

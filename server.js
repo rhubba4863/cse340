@@ -25,15 +25,8 @@ app.set("layout", "./layouts/layout") // not at views root
  *************************/
 app.use(require("./routes/static"))
 
-//Index route
-// app.get("/", function(req, res){
-//   res.render("index", {title:"home"})
-// })
-
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
-
-// app.get("/", baseController.buildHome) //RPH 2
 
 // Inventory routes
 app.use("/inv", require("./routes/inventoryRoute"))

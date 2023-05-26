@@ -19,15 +19,14 @@ body{
   border: 3px solid skyblue;
   padding: 3px;
 
-  /* top: 50%;
-  left: 50%;  */
-  
+  /* Set max size box/element can be */
   max-width: 65em;
-  margin: 0 auto;
-  
+  margin: 0 auto;  
 }
 
-/******* Top Header******FIXED**/
+/******* 
+* Top Header
+********/
 header{
   position: relative;
 }
@@ -54,24 +53,33 @@ header{
   color: black;
 }
 
-/******** Heading Links ********/
+/************** 
+* Heading Links - https://www.w3schools.com/cssref/tryit.php?filename=trycss3_media_menu
+**************/
 nav#top-black-bar{
   display: flex;
   align-items: flex-start;
-}
-
-.header-link-options {
-  display: flex;
   justify-content: center;
   align-items: center;
-
+  
   width: 100%;
-  /* Remove the extra left-lump where a bullet would go */
-  margin-left: 0px;
-  padding-left: 0;
   background-color: #333;  
 }
 
+.header-link-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px 2em;
+
+  justify-content: center;
+  align-items: center;
+
+  /* Remove the extra left-lump where a bullet would go */
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+/* individual header options */
 ul.header-link-options li{
   display: inline-block;
   text-align: center;
@@ -81,9 +89,27 @@ ul.header-link-options li{
 }
 
 ul.header-link-options li a{
-color: white;
+  color: white;
 }
 
+/* Change color when user hovers over */
+ul.header-link-options li a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* When less then 500px, start moving options to 2nd row below */
+@media screen and (max-width: 500px) {
+  ul.header-link-options {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 250px) {
+  ul.header-link-options {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
 .container{
   position: relative;
@@ -96,7 +122,7 @@ color: white;
 }
 
 main{
-  display: block;
+  /* display: block; */
 }
 
 .vehicle-image{
@@ -226,26 +252,123 @@ ul.car-features{
 /************************ 
 2nd Lvl: Car modals Shown 
 *************************/
-/* INCOMPLETE */
-.inv-display{
-  display: flex;
+/* All Cars of that modal */
+#inv-display{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px 2em;
+
   justify-content: center;
   align-items: center;
 
- margin-left: 0px;
-  padding-left: 0;
-
-  
-}
-
-/* INCOMPLETE */
-.car-modal{
   /* Remove the extra left-lump where a bullet would go */
- list-style-type: none; 
- /* Remove the extra left-lump where a bullet would go */
- margin-left: 0px;
- padding-left: 0px;
+  margin-left: 0px;
+  padding-left: 0px;
 }
+
+/* One car modal */
+.car-modal{
+  height: 270px;
+  /* Remove the extra left-lump where a bullet would go */
+  list-style-type: none; 
+ 
+  /* Border */
+  border-style: solid;
+  /* Round border - https://www.w3schools.com/css/css_border_rounded.asp*/
+  border: 2px solid rgb(204, 203, 203);
+  border-radius: 5px;
+  padding: 5px;
+
+  /* Center the text - https://www.w3schools.com/cssref/tryit.php?filename=trycss_text-align */
+  text-align: center;
+}
+
+/* When screen width is less then 740px */
+@media screen and (max-width: 740px) {
+  #inv-display{
+    /* -webkit-column-count: 1;
+    column-count: 1; */
+    grid-template-columns: 1fr 1fr;
+  }
+  /* flex: 100%;
+    max-width: 100%; */
+}
+
+@media screen and (max-width: 500px) {
+  #inv-display{
+    /* -webkit-column-count: 1;
+    column-count: 1; */
+
+    grid-template-columns: 1fr;
+
+  }
+  /* flex: 100%;
+    max-width: 100%; */
+}
+
+/************************ 
+3rd Lvl: 1 Car Modal Shown 
+*************************/
+/* Box holding both description section of that modal */
+#inv-car-modal{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 2em;
+
+  justify-content: center;
+  align-items: center;
+
+  /* Remove the extra left-lump where a bullet would go */
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.inv-car-modal-columns{
+  float: left;
+  /* width: 50%; */
+  /* padding: 20px; */
+  background-color: aqua;
+
+  /* flex: 50%;
+  max-width: 50%; */
+  height: 370px;
+  /* Remove the extra left-lump where a bullet would go */
+  list-style-type:none; 
+}
+
+#mainCarPicture{
+  padding: 25px;
+  object-fit: contain; 
+  width: 100%;
+}
+
+#infoTitle{
+  font-size: 30px;
+  text-align: center;
+  padding-bottom: 15px;
+
+}
+
+#mainCarDetails{
+  padding: 25px;
+  font-size: 25px;
+}
+
+/* When screen is less than 1030 */
+@media screen and (max-width: 1030px) {
+  #inv-car-modal{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Bold Certain Text within "span" element */
+.bold {
+  font-weight:bold;  
+}
+
+/* text adjusted to picture - https://www.geeksforgeeks.org/how-to-wrap-the-text-around-an-image-using-html-and-css/ 
+ * image position - https://www.freecodecamp.org/news/css-responsive-image-tutorial/
+ */
 
 /************************ 
 3rd Lvl: a Car's Information 
