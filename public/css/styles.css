@@ -325,12 +325,8 @@ ul.car-features{
 
 .inv-car-modal-columns{
   float: left;
-  /* width: 50%; */
-  /* padding: 20px; */
   background-color: aqua;
 
-  /* flex: 50%;
-  max-width: 50%; */
   height: 370px;
   /* Remove the extra left-lump where a bullet would go */
   list-style-type:none; 
@@ -339,14 +335,15 @@ ul.car-features{
 #mainCarPicture{
   padding: 25px;
   object-fit: contain; 
+  overflow:hidden;
   width: 100%;
 }
 
+/* Details and its title */
 #infoTitle{
   font-size: 30px;
   text-align: center;
   padding-bottom: 15px;
-
 }
 
 #mainCarDetails{
@@ -354,10 +351,25 @@ ul.car-features{
   font-size: 25px;
 }
 
-/* When screen is less than 1030 */
+/* 
+*  When screen is less than 1030: Make 1 column, and each box
+*  fill the outside one
+*/
 @media screen and (max-width: 1030px) {
   #inv-car-modal{
     grid-template-columns: 1fr;
+  }
+
+  #mainCarPicture{
+    height: 100%;
+  }
+
+  #mainCarDetails{
+    height: 100%;
+  }
+
+  .inv-car-modal-columns{
+    height: auto;
   }
 }
 
@@ -373,3 +385,11 @@ ul.car-features{
 /************************ 
 3rd Lvl: a Car's Information 
 *************************/
+
+/************************ 
+Footer
+*************************/
+/* #500Error{
+  <p> 
+
+} */

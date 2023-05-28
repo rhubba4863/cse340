@@ -7,4 +7,7 @@ const invController = require("../controllers/invController")
 router.get("/type/:classificationId", invController.buildByClassificationId);
 router.get("/detail/:id", invController.buildByModalId); //RPH Unit 3
 
+// router.get("", invController.)
+
+
 module.exports = router; 

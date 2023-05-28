@@ -30,7 +30,6 @@ async function getInventoryByClassificationId(classification_id) {
  *********************************/
 async function getModalFeatures(id){
   try {
-    console.log("RPH3"+id);
     const result = await pool.query(
       'SELECT * FROM public.inventory WHERE inv_id = $1', 
       [id]
