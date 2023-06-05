@@ -12,6 +12,38 @@ const app = express()
 
 const baseController = require("./controllers/baseController") //RPH 2
 const utilities = require("./utilities/") //RPH 4
+// rph Unit 4
+const session = require("express-session")
+const pool = require('./database/')
+// Unit 4: 
+const bodyParser = require("body-parser")
+
+/* ***********************
+ * Middleware - Unit 4
+ * Create table if missing, and add to the database pool
+ * ************************/ 
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true, 
+  name: 'sessionId',
+}))
+
+// Unit 4
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+
+app.use(bodyParser.json()) 
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 
 /* ***********************
  * View Engine and Templates
@@ -22,6 +54,8 @@ app.set("layout", "./layouts/layout") // not at views root
 
 /* ***********************
  * Routes
+ * RPH: Ex: when a route of "/account" ... it will be forwarded 
+ * to accounteRoute file "./routes/accountRoute" for handling
  *************************/
 app.use(require("./routes/static"))
 
@@ -32,6 +66,11 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 app.use("/inv", require("./routes/inventoryRoute"))
 // Error routes (Step 1)
 app.use("/error", require("./routes/errorRoutes"))
+// Unit 4 - Account Routes
+app.use("/account", require("./routes/accountRoute"))
+
+// error link - Simpler
+app.get("/error", utilities.handleErrors(baseController.errorFunc))
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {

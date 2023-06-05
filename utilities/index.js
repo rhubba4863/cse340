@@ -88,15 +88,15 @@ Util.buildCarDetailView = async function(data){
   return grid;
 }
 
-// Error Steps (Step 4)
+/***************************
+ * Error Steps (Step 4)
+ ***************************/ 
 Util.buildByError = async function(data){
   let grid = '<div>Server Error</div>'
   + '<div>Oh no! There was a crash. Maybe try a different route<div>';
 
   return grid;
 }
-
-
 
 /* ****************************************
  * Middleware For Handling Errors
@@ -105,7 +105,21 @@ Util.buildByError = async function(data){
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
+Util.passwordShow = async function(){
+  const pswdButton = document.querySelector("passwordButton");
+  pswdButton.addEventListener("click", function(){
+    const pswdInput = document.querySelector("");
+    const type = pswdButton.getAttribute("type");
 
+    if(type == "password"){
+      pswdInput.setAttribute("type", "text");
+      pswdButton.innerHTML = "Hide Password";
+    }else {
+      pswdInput.setAttribute("type", "password");
+      pswdButton.innerHTML = "Show Password";
+    }
+  });
+}
 
 //NOTE - ALWAYS LAST STEP - RPH/TEACHER
 module.exports = Util

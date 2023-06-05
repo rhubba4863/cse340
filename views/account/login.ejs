@@ -1,0 +1,31 @@
+<!-- Content Heading: show the title, else return to home screen -->
+<% if (title) { %>
+  <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/')
+  } %>
+  
+  <!-- The Message Block: Ex if an error appears -->
+  <%- messages() %>
+  
+  <!-- Login Display -->
+  <form id="loginOuterBackground" action="/account/login" method="post">
+    <div id="loginBackground">
+      <label for="email">Email Address:</label>
+      <Input type="text" name="account_email" id="email" placeholder="Enter a valid email address"
+        required value="<%= locals.account_email %>"><br>
+      <label for="password">Password</label>
+      <Input type="password" name="account_password" id="password"
+         required  
+         pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><br>
+      <label>Passwords must be minimum of 12 characters and include 1 capital 
+             letter, 1 number, and 1 special character.</label><br>
+      <button id="passwordButton">Show Password</button><br>
+      <button>Login</button>
+    </div>
+    <p id="signUp">No account?  <a href="/account/register">Sign-Up</a></p>
+  </form>
+
+
+  <!-- <form action="..." method="get"></form>
+  spaces, not comas  -->

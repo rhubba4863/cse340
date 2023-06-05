@@ -378,18 +378,75 @@ ul.car-features{
   font-weight:bold;  
 }
 
+/************************ 
+*  Login Page - (Note, "padding" is giving the space with background color)
+*************************/
+#requiredTitle{
+  padding-left:10px;
+}
+
+#loginOuterBackground{
+  background-color:rgba(0, 60, 255, 0.507);
+  width: 260px;
+  /* border: 2px solid rgb(196, 64, 64); */
+  display: block;
+  margin-top: 14px;
+  margin-left: auto;
+  margin-right: auto;
+
+/* Edit Later */
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+#loginBackground{
+  border: 2px solid rgb(253, 253, 253);
+
+  padding: 10px;
+  margin: 10px;
+  display: block;
+  margin-top: 7px;
+  margin-left: 6px;
+  margin-right: 6px
+}
+
+#passwordButton{
+  border-radius: 20px;
+  background: black;
+  color:#fff;
+  padding: 5px;
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+
+#signUp{
+  color: #333;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/******************
+* Input coloring
+*******************/
+input:focus:required:invalid{
+  background-color:red;
+}
+/* input:required:invalid, input:focus:invalid {
+  background-image: url(/images/invalid.png);
+  background-position: right top;
+  background-repeat: no-repeat;
+  
+  background-color:red;
+} */
+  
+ input:required:valid {
+  background-image: url(/images/valid.png);
+  background-position: right top;
+  background-repeat: no-repeat;  
+  background-color:greenyellow;
+}
+
 /* text adjusted to picture - https://www.geeksforgeeks.org/how-to-wrap-the-text-around-an-image-using-html-and-css/ 
  * image position - https://www.freecodecamp.org/news/css-responsive-image-tutorial/
  */
 
-/************************ 
-3rd Lvl: a Car's Information 
-*************************/
-
-/************************ 
-Footer
-*************************/
-/* #500Error{
-  <p> 
-
-} */
