@@ -26,12 +26,15 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin))
 router.post(
   "/login",
   regValidate.loginRules(),
-  // regValidate.checkLoginData(),
-  // utilities.handleErrors(accountController.loginAccount),
+  regValidate.checkLoginData,
+  //utilities.handleErrors(accountController.loginAccount),
+
+  //RPH: For now simply go to blank page
   (req, res) => {
     res.status(200).send('login process')
   }
 )
+
 
 /***********************************
 * Deliver Registration View

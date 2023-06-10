@@ -17,7 +17,7 @@
   <% } %>
 
   <!-- Register Display -->
-  <form id="loginOuterBackground" action="/account/register" method="post">
+  <form id="loginOuterBackground" action="../account/register" method="post">
     <p id="requiredTitle">All fields are required</p>
     <div id="loginBackground">
       <label for="accountFirstname">First name:</label>
@@ -31,7 +31,6 @@
         required value="<%= locals.account_email %>"><br>
       <label for="password">Password</label>
       <Input type="password" name="account_password" id="password"
-          
          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><br>
       <label>Passwords must be minimum of 12 characters and include 1 capital 
              letter, 1 number, and 1 special character.</label><br>
@@ -39,4 +38,6 @@
       <button>Register</button>
     </div>
     <!-- <p id="signUp">No account?  <a href="/account/register">Sign-Up</a></p> -->
+    <!-- pattern="^(?=.*[^a-zA-Z]).{1,}$"
+    pattern="^(?=.*[^a-zA-Z]).{2,}$" -->
   </form>

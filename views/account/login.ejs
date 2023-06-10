@@ -7,8 +7,13 @@
   
   <!-- The Message Block: Ex if an error appears -->
   <%- messages() %>
+
+  <!-- Add "Registration View Error Display" block 
+  https://blainerobertson.github.io/340-js/views/server-validation.html-->
   
   <!-- Login Display -->
+  <!-- <form id="loginOuterBackground" action="/account/login" method="post"> -->
+    <!-- action="../inventory/management" -->
   <form id="loginOuterBackground" action="/account/login" method="post">
     <div id="loginBackground">
       <label for="email">Email Address:</label>
@@ -21,7 +26,9 @@
       <label>Passwords must be minimum of 12 characters and include 1 capital 
              letter, 1 number, and 1 special character.</label><br>
       <button id="passwordButton">Show Password</button><br>
-      <button>Login</button>
+      <!-- <button>Login</button> -->
+      <!-- <input class="submitBtn" type="submit" name="submitf" value="LOGIN"> -->
+      <input type="submit" name="submit" value="LOGIN">
     </div>
     <p id="signUp">No account?  <a href="/account/register">Sign-Up</a></p>
   </form>

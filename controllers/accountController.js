@@ -1,4 +1,3 @@
-
 const utilities = require("../utilities/") //RPH 4
 const bcrypt = require("bcryptjs")
 const accountModel = require("../models/account-model.js")
@@ -24,24 +23,20 @@ async function loginAccount(req, res) {
   let nav = await utilities.getNav()
   const { 
     account_firstname, 
-    account_lastname, 
     account_email, 
-    account_password 
   } = req.body
 
   //Where the data is sent to the modal
-  const regResult = true;
-  // const regResult = await accountModel.registerAccount(
-  //   account_firstname,
-  //   account_lastname,
-  //   account_email,
-  //   hashedPassword
-  // )
+  // const regResult = true;
+  const regResult = await accountModel.registerAccount(
+    account_email,
+    hashedPassword
+  )
 
   if (regResult) {
     req.flash(
       "notice",
-      `Congratulations, you\'re registered ${account_firstname}. Please log in.`
+      `Congratulations, you\'re registered ${account_firstname} to log in.`
     )
     res.status(201).render("account/login", {
       title: "Login",

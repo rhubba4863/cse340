@@ -1,0 +1,19 @@
+
+
+  <!-- RPH - NEW TITLE LATER -->
+
+  <!-- Content Heading: show the title, else return tp home screen -->
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+  
+<!-- The Message Block: Ex if an error appears -->
+<%- messages() %>
+  
+<!-- New Product Buttons -->
+<a href="/inv/add-Classification" >Add New Classification</a><br>
+<a href="/inv/add-Inventory" >Add New Vehicle</a>
+  
+

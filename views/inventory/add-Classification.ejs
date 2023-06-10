@@ -1,0 +1,25 @@
+<!-- Content Heading: show the title, else return to home screen -->
+<% if (title) { %>
+  <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/')
+} %>
+  
+<!-- The Message Block: Ex if an error appears -->
+<%- messages() %>
+    
+<!-- The Add Classification Display -->
+<form class="outerBoxBackground" action="/inv/add-Classification" method="post">
+  <label class="aRequiredTitle">FIELD IS REQUIRED.</label>
+  <!-- All within the box -->
+  <div class="innerboxBackground">
+    <label class="labelPaddedTopBottom" for="classificationName">Classification Name:</label><br>
+    <label class="labelPaddedTopBottom" for="classificationName">NAME MUST BE ALPHABETIC CHARACTERS ONLY.</label>
+    <Input type="text" name="classification_name" id="classificationName"
+       required  
+       pattern="^(?=.*[a-zA-Z]).{4,}$"><br>  
+    <button>Add Classification</button>
+  </div>
+</form>
+
+<!-- pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><br>   -->

@@ -11,13 +11,17 @@ const accountModel = require("../models/account-model")
  * ********************************* */
 validate.loginRules = () => {
   return [
-    // firstname is required and must be string
-    body("account_firstname")
+    // password is required and must be strong password
+    body("account_password")
       .trim()
-      .isString()
-      .isLength({ min: 1 })
-      .withMessage("Please provide a first name."), 
-      // on error this message is sent.
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Password does not meet requirements."),
 
     // valid email is required and cannot already exist in the Datababse (DB)
     body("account_email")
@@ -52,9 +56,9 @@ validate.checkLoginData = async (req, res, next) => {
  *  Registration Data Validation Rules
  *  RPH: Here are the server-side messages that will be displayed
  * ********************************* */
-validate.registrationRules = () => {
+validate.registrationRules = () => { 
   return [
-    // firstname is required and must be string
+    // firstname is required and must be string // 
     body("account_firstname")
       .trim()
       .isString()
@@ -65,15 +69,10 @@ validate.registrationRules = () => {
     body("account_lastname")
       .trim()
       .isString()
+      // .matches('^[a-zA-Z]+$')
+      .matches('^[a-zA-Z]*$')
       .isLength({ min: 2 })
       .withMessage("Please provide a last name."), // on error this message is sent.
-
-    // valid email is required and cannot already exist in the Datababse (DB)
-    body("account_email")
-    .trim()
-    .isEmail()
-    .normalizeEmail() // refer to validator.js docs
-    .withMessage("A valid email is required."),
 
     // password is required and must be strong password
     body("account_password")
@@ -87,7 +86,7 @@ validate.registrationRules = () => {
       })
       .withMessage("Password does not meet requirements."),
 
-    // valid email is required and cannot already exist in the database
+    // valid email is required and cannot already exist in the database (DB)
     body("account_email")
       .trim()
       .isEmail()
@@ -119,6 +118,43 @@ validate.checkRegData = async (req, res, next) => {
       account_firstname,
       account_lastname,
       account_email,
+    })
+    return
+  }
+  next()
+}
+
+
+/*  **********************************
+ *  Classification Data Validation Rules
+ *  RPH: Here are the server-side messages that will be displayed
+ * ********************************* */
+validate.registerClassRules = () => { 
+  return [
+    // lastname is required and must be string
+    body("classification_name")
+      .trim()
+      .isString()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a classification."), // on error this message is sent.
+  ]
+}
+
+/* ******************************
+ * Check data and return errors or continue to registration
+ * ***************************** */
+validate.checkClassData = async (req, res, next) => {
+  const { classification_name } = req.body
+  let errors = []
+  errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("inventory/add-Classification", {
+      errors,
+      title: "Classification",
+      nav,
+      classification_name,
     })
     return
   }
