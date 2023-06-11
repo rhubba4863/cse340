@@ -42,8 +42,8 @@ router.get("/add-Inventory", utilities.handleErrors(
 
 router.post(
   "/add-Inventory",
-  // regValidate.registerClassRules(),
-  // regValidate.checkClassData,
+  regValidate.inventoryRegisterRules(),
+  regValidate.checkInventoryData,
   utilities.handleErrors(invController.registerNewCar)
 )
 

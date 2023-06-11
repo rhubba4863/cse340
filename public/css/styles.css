@@ -283,7 +283,7 @@ ul.car-features{
   text-align: center;
 }
 
-.car-modal/a/img{
+.car-modal img{
   height: 130px;
 }
 
@@ -340,7 +340,9 @@ ul.car-features{
   padding: 25px;
   object-fit: contain; 
   overflow:hidden;
-  width: 100%;
+  align-items: center;
+
+  /* width: 100%; */
 }
 
 /* Details and its title */

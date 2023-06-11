@@ -20,26 +20,29 @@ method="post">
     <%- brands %><br>
     <label>Make</label><br>
     <input type="text" required name="inv_make" value="<%= locals.inv_make %>"
+      minlength="3"
       placeholder="Min of 3 characters"><br>
     <label>Model</label><br>
     <input type="text" required name="inv_model" value="<%= locals.inv_model %>"
+      minlength="3"
       placeholder="Min of 3 characters">
     <label>Description</label><br>
     <textarea type="text" rows="4" required name="inv_description" value="<%= locals.inv_description %>"></textarea><br>
     <label>Image Path</label><br>
     <input type="text" required name="inv_image" value="/images/vehicles/no-image.png">
     <label >Thumbnail Path</label><br>
-    <input type="text" required name="inv_thumbnail" value="/images/vehicles/no-image.png"><br>
+    <input type="text" required name="inv_thumbnail" value="/images/vehicles/no-image-tn.png"><br>
     <label>Price</label><br>
     <input type="number" required name="inv_price" placeholder="decimal or integer"><br>
     <label>Year</label><br>
-    <input type="number" required name="inv_year" placeholder="4-digit year" pattern="\d{4}"><br>
+    <input type="number" required name="inv_year" placeholder="4-digit year" 
+      min="1000" max="2050"
+      pattern="\d{4}"><br>
     <label>Miles</label><br>
     <input type="number" required name="inv_miles" placeholder="digits only"><br>
     <label >Color.</label><br>
     <Input type="text" name="inv_color"
-       required  
-       pattern="^?=.*[^a-zA-Z]).{2,}$"><br>  
+       required><br>  
     <button>Add Vehicle</button>
   </div>
 </form>

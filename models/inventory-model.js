@@ -72,12 +72,5 @@ async function registerIntoInventory(classification_id, inv_make, inv_model,
   }
 }
 
-/* ***************************
- *  Get all classification types
- * ************************** */
-// async function getClassifications(){
-//   return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
-// }
-
 //Add all Methods here to export
 module.exports = {getClassifications, getInventoryByClassificationId, getModalFeatures, registerClassification, registerIntoInventory};
