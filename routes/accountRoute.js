@@ -46,7 +46,11 @@ router.post(
 /*********************************
  * Unit 5: Login Activity
  *********************************/
-router.get("/", utilities.handleErrors(accountController.buildAccount))
+router.get(
+  "/", 
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildAccount)
+)
 
 // Process the registration data
 // router.post(

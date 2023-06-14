@@ -41,10 +41,14 @@ invCont.buildByModalId = async function (req, res, next) {
 ******************************************************/
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
-  res.render("inventory/management", {
-    title: "Inventory Management",
+  // CARROT ERROR CONFIRM 1)
+  // const classificationSelect = await utilities.buildClassificationList()
+  const classificationSelect = await utilities.getClassTypes()
+  res.render("./inventory/management", {
+    title: "Vehicle Management",
     nav,
     errors: null,
+    classificationSelect,
   })
 }
 
@@ -157,6 +161,20 @@ invCont.registerNewCar = async function (req, res) {
       title: "Add New Inventory",
       nav,
     })
+  }
+}
+
+/* ***************************
+ *  Return Inventory by Classification As JSON
+ *  Unit 5, Select Inv Item activity (Called from "client side" javascript)
+ * ************************** */
+invCont.getInventoryJSON = async (req, res, next) => {
+  const classification_id = parseInt(req.params.classification_id)
+  const invData = await invModel.getInventoryByClassificationId(classification_id)
+  if (invData[0].inv_id) {
+    return res.json(invData)
+  } else {
+    next(new Error("No data returned"))
   }
 }
 

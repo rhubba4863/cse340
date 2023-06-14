@@ -47,6 +47,18 @@ router.post(
   utilities.handleErrors(invController.registerNewCar)
 )
 
+/* ******************************
+ * Unit 5 - Deliver 
+ * ***************************** */
+// /inv/getInventory/:classification_id
+router.get(
+  "/getInventory/:classification_id",
+  //CARROT
+  // utilities.checkClassData, 
+  utilities.handleErrors(invController.getInventoryJSON))
+
+
+
   // router.get("/",  (req, res) => {
   //   res.status(200).send('Series of unfortunate events')
   // }); //RPH Unit 3

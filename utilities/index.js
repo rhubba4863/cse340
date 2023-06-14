@@ -165,5 +165,20 @@ Util.checkJWTToken = (req, res, next) => {
   }
  }
 
+ /* ****************************************
+ *  Check Login
+ *  Unit 5, jwt, authorize activity
+ * ************************************ */
+ Util.checkLogin = (req, res, next) => {
+  //First check the flag, if authorized
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    //Steps
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+ }
+
 //NOTE - ALWAYS LAST STEP - RPH/TEACHER
 module.exports = Util
