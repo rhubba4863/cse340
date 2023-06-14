@@ -1,7 +1,8 @@
 const utilities = require("../utilities/") //RPH 4
-const bcrypt = require("bcryptjs")
 const accountModel = require("../models/account-model.js")
-
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 /* ****************************************
 *  Deliver login view
@@ -115,5 +116,46 @@ async function registerAccount(req, res) {
   }
 }
 
+/* ****************************************
+*  Deliver account view
+* *************************************** */
+async function buildAccount(req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./account/account-Management", {
+    title: "You're logged in",
+    nav,
+    errors: null,
+  })
+}
+
+/* ****************************************
+ *  Process login request
+ * ************************************ */
+async function accountLogin(req, res) {
+  let nav = await utilities.getNav()
+  const { account_email, account_password } = req.body
+  const accountData = await accountModel.getAccountByEmail(account_email)
+  if (!accountData) {
+   req.flash("notice", "Please check your credentials and try again.")
+   res.status(400).render("account/login", {
+    title: "Login",
+    nav,
+    errors: null,
+    account_email,
+   })
+  return
+  }
+  try {
+   if (await bcrypt.compare(account_password, accountData.account_password)) {
+    delete accountData.account_password
+    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+    res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+    return res.redirect("/account/")
+   }
+  } catch (error) {
+    return new Error('Access Forbidden')
+  }
+ }
+
 //Export for use
-module.exports = { buildLogin, buildRegister,  registerAccount}
+module.exports = { buildLogin, buildRegister,  registerAccount, accountLogin, buildAccount}

@@ -8,7 +8,16 @@
 } %>
 
 <!-- The Message Block: Ex if an error appears -->
-<%# messages() %>
+<%- messages() %>
+
+<!-- Error Block -->
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
 
 <!-- The Add Classification Display --> <!-- /inv/management -->
 <form class="outerBoxBackground" action="/inv/add-Inventory" 
@@ -27,7 +36,7 @@ method="post">
       minlength="3"
       placeholder="Min of 3 characters">
     <label for="Description">Description</label><br>
-    <textarea type="text" rows="4" required name="inv_description" id="Description" value="<%= locals.inv_description %>"></textarea><br>
+    <textarea rows="4" required name="inv_description" id="Description"><%= locals.inv_description %></textarea><br>
     <label for="image">Image Path</label><br>
     <input type="text" required name="inv_image" id="image" value="/images/vehicles/no-image.png">
     <label for="Thumbnail">Thumbnail Path</label><br>
@@ -36,8 +45,7 @@ method="post">
     <input type="number" required name="inv_price" id="Price" placeholder="decimal or integer"><br>
     <label for="year">Year</label><br>
     <input type="number" required name="inv_year" id="year" placeholder="4-digit year" 
-      min="1000" max="2050"
-      pattern="\d{4}"><br>
+      min="1000" max="2050"><br>
     <label for="miles">Miles</label><br>
     <input type="number" required name="inv_miles" id="miles" placeholder="digits only"><br>
     <label for="color">Color.</label><br>

@@ -4,7 +4,7 @@ const router = new express.Router()
 const invController = require("../controllers/invController")
 const utilities = require("../utilities/") //RPH 4
 
-const regValidate = require('../utilities/account-validation')
+const regValidate = require('../utilities/inventory-validation')
 
 
 // Route to build inventory by classification view

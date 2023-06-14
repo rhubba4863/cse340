@@ -8,6 +8,15 @@
 <!-- The Message Block: Ex if an error appears -->
 <%- messages() %>
     
+<!-- Error Block -->
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
 <!-- The Add Classification Display -->
 <form class="outerBoxBackground" action="/inv/add-Classification" method="post">
   <label class="aRequiredTitle">FIELD IS REQUIRED.</label>

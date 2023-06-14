@@ -16,23 +16,17 @@ const utilities = require("../utilities")
 /***********************************
 * Deliver Login View
 * Unit 4, deliver login view activity 
+* Modified in Unit 5, Login Process activity
 * **********************************/
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
 // Process the login attempt     
-//regValidate.checkLoginData(),
-//utilities.handleErrors(accountController.registerAccount)
-
 router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  //utilities.handleErrors(accountController.loginAccount),
-
-  //RPH: For now simply go to blank page
-  (req, res) => {
-    res.status(200).send('login process')
-  }
+  // utilities.handleErrors(accountController.loginAccount),
+  utilities.handleErrors(accountController.accountLogin),
 )
 
 
@@ -49,5 +43,30 @@ router.post(
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
 )
+
+/*********************************
+ * Unit 5: Login Activity
+ *********************************/
+router.get("/", utilities.handleErrors(accountController.buildAccount))
+
+// Process the registration data
+// router.post(
+//   "/",
+//   utilities.handleErrors(accountController.buildAccount)
+//   // regValidate.registrationRules(),
+//   // regValidate.checkRegData,
+//   // utilities.handleErrors(accountController.registerAccount)
+
+  //RPH: For now simply go to blank page
+  // (req, res) => {
+  //   res.status(200).send('You are logged in')
+  // }
+//)
+
+
+  //RPH: For now simply go to blank page
+  // (req, res) => {
+  //   res.status(200).send('login process')
+  // }
 
 module.exports = router; 
