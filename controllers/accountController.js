@@ -16,41 +16,6 @@ async function buildLogin(req, res, next) {
   })
 }
 
-/* ****************************************
-*  Process Login (RPH maybe not required???)
-* *************************************** */
-//RPH Attempt
-async function loginAccount(req, res) {
-  let nav = await utilities.getNav()
-  const { 
-    account_firstname, 
-    account_email, 
-  } = req.body
-
-  //Where the data is sent to the modal
-  // const regResult = true;
-  const regResult = await accountModel.registerAccount(
-    account_email,
-    hashedPassword
-  )
-
-  if (regResult) {
-    req.flash(
-      "notice",
-      `Congratulations, you\'re registered ${account_firstname} to log in.`
-    )
-    res.status(201).render("account/login", {
-      title: "Login",
-      nav,
-    })
-  } else {
-    req.flash("notice", `Sorry, login to ${account_firstname} failed.`)
-    res.status(501).render("account/login", {
-      title: "Login",
-      nav,
-    })
-  }
-}
 
 /* ****************************************
 *  Deliver registration view
