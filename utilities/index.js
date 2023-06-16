@@ -29,10 +29,13 @@ Util.getNav = async function (req, res, next) {
 
 /* ************************
  * Constructs the dropdown HTML list
+ * a.k.a buildClassificationList()
  ************************** */
 Util.getClassTypes = async function (req, res, next) {
   let data = await invModel.getClassifications()
-  let list = "<select name='classification_id' class='classification-options'>"
+  let list = "<select name='classification_id' id='classificationList' class='classification-options'>"
+  // RPH CARROT
+  list +   '<option value="" selected disabled hidden>Choose here</option>'
   data.rows.forEach((row) => {
     list +=
       '<option value="' + row.classification_id +

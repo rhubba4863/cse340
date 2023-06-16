@@ -1,4 +1,3 @@
-<!-- three distinct sections: A content heading, a message, and the display. -->
 
 <!-- Content Heading: show the title, else return tp home screen -->
 <% if (title) { %>
@@ -20,8 +19,7 @@
 <% } %>
 
 <!-- The Add Classification Display --> <!-- /inv/management -->
-<form class="outerBoxBackground" action="/inv/add-Inventory" 
-method="post">
+<form class="outerBoxBackground" action="/inv/update" method="post">
   <label>ALL FIELDS ARE REQUIRED</label>
   <!-- All within the box -->
   <div class="innerboxBackground">
@@ -51,7 +49,7 @@ method="post">
     <label for="color">Color.</label><br>
     <Input type="text" name="inv_color" id="color" value="<%= locals.inv_color %>"
        required><br>  
-    <button>Add Vehicle</button>
+       <button type="submit">Update Vehicle</button>
   </div>
 </form>
 

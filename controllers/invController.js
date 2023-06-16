@@ -41,8 +41,6 @@ invCont.buildByModalId = async function (req, res, next) {
 ******************************************************/
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
-  // CARROT ERROR CONFIRM 1)
-  // const classificationSelect = await utilities.buildClassificationList()
   const classificationSelect = await utilities.getClassTypes()
   res.render("./inventory/management", {
     title: "Vehicle Management",
@@ -167,6 +165,7 @@ invCont.registerNewCar = async function (req, res) {
 /* ***************************
  *  Return Inventory by Classification As JSON
  *  Unit 5, Select Inv Item activity (Called from "client side" javascript)
+ *    (return the JSON data.)
  * ************************** */
 invCont.getInventoryJSON = async (req, res, next) => {
   const classification_id = parseInt(req.params.classification_id)
@@ -176,6 +175,64 @@ invCont.getInventoryJSON = async (req, res, next) => {
   } else {
     next(new Error("No data returned"))
   }
+}
+
+/* ***************************
+ *  Build view to edit an inventory (a car) (Unit5)
+ * ************************** */
+invCont.editInventoryViewTeacher = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id)
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getInventoryById(inv_id)
+  const classificationSelect = await utilities.buildClassificationList(itemData.classification_id)
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+  res.render("./inventory/edit-inventory", {
+    title: "Edit " + itemName,
+    nav,
+    classificationSelect: classificationSelect,
+    errors: null,
+    inv_id: itemData.inv_id,
+    inv_make: itemData.inv_make,
+    inv_model: itemData.inv_model,
+    inv_year: itemData.inv_year,
+    inv_description: itemData.inv_description,
+    inv_image: itemData.inv_image,
+    inv_thumbnail: itemData.inv_thumbnail,
+    inv_price: itemData.inv_price,
+    inv_miles: itemData.inv_miles,
+    inv_color: itemData.inv_color,
+    classification_id: itemData.classification_id
+  })
+}
+
+/* ***************************
+ *  Build view to edit an inventory (a car) (Unit5)
+ * ************************** */
+invCont.editInventoryView = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id)
+  let nav = await utilities.getNav()
+  //CARROT
+  //const itemData = await invModel.getInventoryById(inv_id)
+  const itemData = await invModel.getModalFeatures(inv_id)
+  const classificationSelect = await utilities.getClassTypes(itemData.classification_id)
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+  res.render("./inventory/add-Inventory", {
+    title: "Edit " + itemName,
+    classificationSelect: classificationSelect,
+    nav,
+    errors: null,
+    inv_id: itemData.inv_id,
+    inv_make: itemData.inv_make,
+    inv_model: itemData.inv_model,
+    inv_year: itemData.inv_year,
+    inv_description: itemData.inv_description,
+    inv_image: itemData.inv_image,
+    inv_thumbnail: itemData.inv_thumbnail,
+    inv_price: itemData.inv_price,
+    inv_miles: itemData.inv_miles,
+    inv_color: itemData.inv_color,
+    classification_id: itemData.classification_id
+  })
 }
 
 module.exports = invCont

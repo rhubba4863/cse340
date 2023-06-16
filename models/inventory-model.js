@@ -3,6 +3,7 @@ const pool = require("../database/")
 
 /* ***************************
  *  Get all classification data
+ * (Get all classifications and info for each)
  * ************************** */
 async function getClassifications(){
   return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
@@ -10,6 +11,7 @@ async function getClassifications(){
 
 /* ***************************
  *  Get all inventory items and classification_name by classification_id
+ * (RPH: Get info for 1 specific group of cars of that 1 classifications)
  * ************************** */
 async function getInventoryByClassificationId(classification_id) {
   try {
@@ -27,6 +29,7 @@ async function getInventoryByClassificationId(classification_id) {
  
 /**********************************
  * RPH unit 3: Get all data for 1 modal
+ * (RPH: Get all data for specific 1 modal by specific id)
  *********************************/
 async function getModalFeatures(id){
   try {

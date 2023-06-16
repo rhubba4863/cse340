@@ -53,10 +53,17 @@ router.post(
 // /inv/getInventory/:classification_id
 router.get(
   "/getInventory/:classification_id",
-  //CARROT
-  // utilities.checkClassData, 
   utilities.handleErrors(invController.getInventoryJSON))
 
+/* ******************************
+ * Unit 5 - Update Inventory Information (Step 1)
+ * ***************************** */
+router.get("/edit/:classification_id", 
+  //CARROT
+  utilities.handleErrors( invController.editInventoryView)
+); 
+
+//Employee, admin get access
 
 
   // router.get("/",  (req, res) => {
