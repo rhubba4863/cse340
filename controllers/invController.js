@@ -138,8 +138,11 @@ invCont.registerNewCar = async function (req, res) {
     inv_year,
     inv_miles,
     inv_color,
+
     //All peices transferred: first_name, last_name
   )
+
+  const classificationSelect = await utilities.getClassTypes()
 
   if (regResult) {
     //RPH: Recall so new Car Inserted
@@ -152,12 +155,16 @@ invCont.registerNewCar = async function (req, res) {
     res.status(201).render("inventory/management", {
       title: "Inventory Management",
       nav,
+      classificationSelect,
+      errors: null,
     })
   } else {
     req.flash("notice", "Sorry, the new car creation failed.")
     res.status(501).render("inventory/add-Inventory", {
       title: "Add New Inventory",
       nav,
+      classificationSelect,
+      errors: null
     })
   }
 }
@@ -180,16 +187,25 @@ invCont.getInventoryJSON = async (req, res, next) => {
 /* ***************************
  *  Build view to edit an inventory (a car) (Unit5)
  * ************************** */
-invCont.editInventoryViewTeacher = async function (req, res, next) {
+invCont.editInventoryView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id)
   let nav = await utilities.getNav()
-  const itemData = await invModel.getInventoryById(inv_id)
-  const classificationSelect = await utilities.buildClassificationList(itemData.classification_id)
+  
+  //CARROT
+  //const itemData = await invModel.getInventoryById(inv_id)
+  const itemData = await invModel.getModalFeatures(inv_id)
+    
+  let brands = await utilities.getClassTypes(itemData.classification_id)
+  console.log("4) Hello world!"+itemData.classification_id);
+  console.log("5) Hello world!"+inv_id);
+
+  const classificationSelect = await utilities.getClassTypes(itemData.classification_id)
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`
-  res.render("./inventory/edit-inventory", {
+  res.render("./inventory/edit-Inventory", {
     title: "Edit " + itemName,
-    nav,
     classificationSelect: classificationSelect,
+    nav,
+    brands,
     errors: null,
     inv_id: itemData.inv_id,
     inv_make: itemData.inv_make,
@@ -205,34 +221,113 @@ invCont.editInventoryViewTeacher = async function (req, res, next) {
   })
 }
 
+/* ****************************************
+*  Process car Registration
+*  (Update a car, not add one)
+* *************************************** */
+invCont.updateInventory  = async function (req, res) {
+
+    let nav = await utilities.getNav()
+    const { 
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      inv_id,
+      //All peices transferred: first_name, last_name...
+    } = req.body
+
+    //Where the data is sent to the modal
+    const updateResult = await invModel.registerIntoInventory(
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      inv_id,
+      //All peices transferred: first_name, last_name
+    )
+
+    if (updateResult) {
+      req.flash(
+        "notice",
+        `Congratulations, the ${inv_make} ${inv_model} was successfully updated.`
+      )
+      res.redirect("/inv/")
+    } else {
+      const classificationSelect = await utilities.buildClassificationList(classification_id)
+      const itemName = `${inv_make} ${inv_model}`
+      req.flash("notice", "Sorry, the insert failed.")
+      res.status(501).render("inventory/edit-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      classificationSelect: classificationSelect,
+      errors: null,
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      inv_id,
+    })
+  }
+}
+
 /* ***************************
- *  Build view to edit an inventory (a car) (Unit5)
+ *  Build delete confirmation view
+ * Unit 5, Delete Activity (1)
  * ************************** */
-invCont.editInventoryView = async function (req, res, next) {
+invCont.deleteView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id)
   let nav = await utilities.getNav()
-  //CARROT
-  //const itemData = await invModel.getInventoryById(inv_id)
   const itemData = await invModel.getModalFeatures(inv_id)
-  const classificationSelect = await utilities.getClassTypes(itemData.classification_id)
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`
-  res.render("./inventory/add-Inventory", {
-    title: "Edit " + itemName,
-    classificationSelect: classificationSelect,
+  res.render("./inventory/delete-Confirm", {
+    title: "Delete " + itemName,
     nav,
     errors: null,
     inv_id: itemData.inv_id,
     inv_make: itemData.inv_make,
     inv_model: itemData.inv_model,
     inv_year: itemData.inv_year,
-    inv_description: itemData.inv_description,
-    inv_image: itemData.inv_image,
-    inv_thumbnail: itemData.inv_thumbnail,
     inv_price: itemData.inv_price,
-    inv_miles: itemData.inv_miles,
-    inv_color: itemData.inv_color,
-    classification_id: itemData.classification_id
   })
 }
+
+/* ***************************
+ *  Build delete confirmation view
+ * Unit 5, Delete Activity (2)
+ * ************************** */
+invCont.deleteItem = async function (req, res, next) {
+  const inv_id = parseInt(req.body.inv_id)
+  let nav = await utilities.getNav()
+
+  const deleteResult = await invModel.deleteInventoryItem(inv_id)
+  
+  if(deleteResult){
+    req.flash("notice", 'The deletion was successful.')
+    res.redirect('/inv/')
+  } else {
+    req.flash("notice", 'Sorry, the delete failed.')
+    res.redirect('/inv/delete/inv_id')
+  }
+}
+
 
 module.exports = invCont

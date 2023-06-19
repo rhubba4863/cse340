@@ -31,21 +31,52 @@ Util.getNav = async function (req, res, next) {
  * Constructs the dropdown HTML list
  * a.k.a buildClassificationList()
  ************************** */
-Util.getClassTypes = async function (req, res, next) {
+Util.getClassTypes = async function(req, res, next){
   let data = await invModel.getClassifications()
-  let list = "<select name='classification_id' id='classificationList' class='classification-options'>"
-  // RPH CARROT
-  list +   '<option value="" selected disabled hidden>Choose here</option>'
-  data.rows.forEach((row) => {
-    list +=
-      '<option value="' + row.classification_id +
-      '">' +
-      row.classification_name +
-      "</option>"
-  })
-  list += "</select>"
-  return list
+  let classifications = '<select name="classification_id" id="classificationList">'
+  classifications +=  '<option value="none" selected disabled hidden>Choose here</option>'
+  data.rows.forEach(classification => {
+    classifications += '<option value="' + classification.classification_id + '">' + classification.classification_name + "</option>"
+  }) 
+  classifications += '</select>'
+  return classifications
 }
+
+
+// Util.getClassTypes = async function (req, res, next, classification_id=null) {
+//   let data = await invModel.getClassifications()
+//   let list = "<select name='classification_id' id='classificationList' class='classification-options'>"
+  
+//   console.log("7) Hello world!"+classification_id);
+
+// //Attempt 1
+//   //list +=   '<option value="none" selected disabled hidden>Choose here</option>'
+//   data.rows.forEach((row) => {
+//     list +=
+//       '<option value="' + row.classification_id +
+//       '">' +
+//       row.classification_name +
+//       "</option>"
+//   })
+//   list += "</select>"
+
+
+  // RPH CARROT - Choose when to show and when not to
+//   list +=   '<option value="" disabled hidden>Choose here</option>'
+//   data.rows.forEach((row) => {
+//     console.log("8) Hello world!"+classification_id);
+//     list +=
+//       '<option value="' + row.classification_id  
+//       if(classification_id!=null && 
+//         classification_id==row.classification_id) 
+//       { list+=" selected "} 
+//     list+='">' +
+//       row.classification_name +
+//       "</option>"
+//   })
+//   list += "</select>"
+//   return list
+// }
 
 /* **************************************
 * Build the classification view HTML

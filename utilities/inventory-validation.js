@@ -1,6 +1,8 @@
 const utilities = require(".")
 const { body, validationResult } = require("express-validator")
 const validate = {}
+//Carrot
+const invModel = require("../models/inventory-model")
 
 /*  **********************************
  *  Classification Data Validation Rules
@@ -45,11 +47,28 @@ validate.checkClassData = async (req, res, next) => {
 validate.inventoryRegisterRules = () => { 
   return [
     // classification is required and must be string
+    // body("classification_id")
+    //   .trim()
+    //   .isString()
+    //   .isLength({ min: 2 })
+    //   .withMessage("Please provide a classification."), // on error this message is sent.
+
     body("classification_id")
-      .trim()
-      .isString()
-      .isLength({ min: 2 })
-      .withMessage("Please provide a classification."), // on error this message is sent.
+    .trim()
+    .isNumeric()
+    .custom(async value => {
+      // Get classifications
+      const classificationsResult = await invModel.getClassifications();
+      const classifications = classificationsResult.rows;
+
+      // Check if the submitted value exists in the classifications array
+      if (!classifications.find(c => c.classification_id == value)) {
+        throw new Error('Invalid Classification ID');
+      }
+      return true;
+    })
+    .withMessage("Valid Classification ID must be entered."),
+
 
     // Make is required and must be string
     body("inv_make")
@@ -131,6 +150,7 @@ validate.checkInventoryData = async (req, res, next) => {
     inv_year,
     inv_miles,
     inv_color,
+    inv_id,
     //All peices transferred: first_name, last_name...
   } = req.body
   
@@ -155,6 +175,49 @@ validate.checkInventoryData = async (req, res, next) => {
     inv_year,
     inv_miles,
     inv_color,
+    inv_id,
+    })
+    return
+  }
+  next()
+}
+
+/* ******************************
+ * Check Edited data and return errors
+ * ***************************** */
+validate.checkUpdateData = async (req, res, next) => {
+  const { 
+    classification_id,   inv_make,
+    inv_model,    inv_description,
+    inv_image,    inv_thumbnail,
+    inv_price,    inv_year,
+    inv_miles,    inv_color,
+    inv_id,
+    //All peices transferred: first_name, last_name...
+  } = req.body
+  
+  //Carrots
+  // const inv_id2 = parseInt(req.params.inv_id)
+  const itemData = await invModel.getModalFeatures(inv_id)
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+
+  let errors = []
+  errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    let brands = await utilities.getClassTypes()
+    res.render("./inventory/edit-Inventory", {
+      errors,
+      title: "Edit " + itemName, 
+      nav,
+      brands, //If fails include the brands to show eror
+      classification_id,  inv_make,
+      inv_model,          inv_description,
+      inv_image,          inv_thumbnail,
+      inv_price,          inv_year,
+      inv_miles,          inv_color,
+      inv_id,
     })
     return
   }

@@ -32,11 +32,11 @@
     <label for="model">Model</label><br>
     <input type="text" required name="inv_model" id="model" value="<%= locals.inv_model %>"
       minlength="3"
-      placeholder="Min of 3 characters">
+      placeholder="Min of 3 characters"><br>
     <label for="Description">Description</label><br>
     <textarea rows="4" required name="inv_description" id="Description"><%= locals.inv_description %></textarea><br>
     <label for="image">Image Path</label><br>
-    <input type="text" required name="inv_image" id="image" value="/images/vehicles/no-image.png">
+    <input type="text" required name="inv_image" id="image" value="/images/vehicles/no-image.png"><br>
     <label for="Thumbnail">Thumbnail Path</label><br>
     <input type="text" required name="inv_thumbnail" id="Thumbnail" value="/images/vehicles/no-image-tn.png"><br>
     <label for="Price">Price</label><br>
@@ -49,7 +49,11 @@
     <label for="color">Color.</label><br>
     <Input type="text" name="inv_color" id="color" value="<%= locals.inv_color %>"
        required><br>  
-       <button type="submit">Update Vehicle</button>
+    <button type="submit">Update Vehicle</button>
+
+    <input type="hidden" name="inv_id"
+      <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+      <% } %>>
   </div>
 </form>
 

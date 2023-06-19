@@ -1,0 +1,52 @@
+
+<!-- Content Heading: show the title, else return tp home screen -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- The Message Block: Ex if an error appears -->
+<%- messages() %>
+
+<!-- Error Block -->
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+<!-- The Add Classification Display --> <!-- /inv/management -->
+<form class="outerBoxBackground" action="/inv/delete" method="post">
+  <label>Confirm Deletion - The delete is permanent.</label>
+  <!-- All within the box -->
+  <div class="innerboxBackground">
+    <label>Classification:</label><br>
+    <label for="make">Make</label><br>
+    <input type="text" readonly name="inv_make" id="make" <% if(locals.inv_make) { %> 
+      value="<%= locals.inv_make %>"<% } %>><br>
+       
+    
+    <label for="model">Model</label><br>
+    <input type="text" readonly name="inv_model" id="model" <% if(locals.inv_model) { %> 
+      value="<%= locals.inv_model %>"<% } %>><br>
+    
+    <label for="Price">Price</label><br>
+    <input type="number" readonly name="inv_price" id="Price" <% if(locals.inv_price) { %> 
+      value="<%= locals.inv_price %>"<% } %>><br>
+    
+    <label for="year">Year</label><br>
+    <input type="number" readonly name="inv_year" id="year" <% if(locals.inv_year) { %> 
+      value="<%= locals.inv_year %>"<% } %>><br>
+    
+      <button type="submit">Delete</button>
+
+    <input type="hidden" name="inv_id"
+      <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+      <% } %>>
+  </div>
+</form>
+
+<!-- pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><br>   -->

@@ -446,7 +446,10 @@ ul.car-features{
 
 .outerBoxBackground{
   background-color:rgba(0, 60, 255, 0.507);
-  width: 260px;
+  /* width: 260px; */
+  width: 400px;
+
+
   /* border: 2px solid rgb(196, 64, 64); */
   display: block;
   margin-top: 14px;

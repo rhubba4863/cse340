@@ -56,14 +56,48 @@ router.get(
   utilities.handleErrors(invController.getInventoryJSON))
 
 /* ******************************
- * Unit 5 - Update Inventory Information (Step 1)
+ * Step 1 - Trigger Update process
+ * Unit 5 - Update Inventory Information
  * ***************************** */
-router.get("/edit/:classification_id", 
+router.get("/edit/:inv_id", 
   //CARROT
-  utilities.handleErrors( invController.editInventoryView)
-); 
+  utilities.handleErrors(invController.editInventoryView)
+)
 
-//Employee, admin get access
+/* ******************************
+ * Step 2 - Check Data
+ * Unit 5 - Update Inventory Information 
+ * ***************************** */
+//CARROT
+router.post("/update/", 
+  regValidate.inventoryRegisterRules(),
+  regValidate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory)
+)
+
+/* ******************************
+ * Employee, admin get access (Step 2)
+ * ***************************** */
+
+/* ******************************
+ * Deliver the delete confirmation view
+ * Unit 5, Delete Activity (1)
+ * ***************************** */
+router.get(
+  "/delete/:inv_id",
+  utilities.handleErrors(invController.deleteView)
+)
+
+/* ******************************
+ * Process the delete inventory request
+ * Unit 5, Delete Activity (2)
+ * ***************************** */
+router.post(
+  "/delete",
+  utilities.handleErrors(invController.deleteItem)
+)
+
+
 
 
   // router.get("/",  (req, res) => {
