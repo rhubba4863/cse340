@@ -121,6 +121,10 @@ ul.header-link-options li a:hover {
   margin-bottom: 40px;
 }
 
+main{
+  /* display: block; */
+}
+
 .vehicle-image{
   width: 60%;
   /* width: 200; */
