@@ -498,6 +498,39 @@ input:focus:required:invalid{
   background-color:greenyellow;
 }
 
+/******************
+* Management Page
+*******************/
+.casualLink{
+   /* Remove Bullets  */
+  list-style-type: none;
+}
+
+
+
+.editInput{
+  margin: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/******************
+* Management Page
+* Change dimensions according to screen size
+*******************/
+.backBox{
+  width: 700px;
+  background-color: #eeeeee;
+}
+
+@media screen and (max-width: 750px) {
+  .backBox{
+    /* width: 700px; */
+    width: 80%;
+
+  }
+}
+
 /* text adjusted to picture - https://www.geeksforgeeks.org/how-to-wrap-the-text-around-an-image-using-html-and-css/ 
  * image position - https://www.freecodecamp.org/news/css-responsive-image-tutorial/
  */

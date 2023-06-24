@@ -52,24 +52,33 @@ router.get(
   utilities.handleErrors(accountController.buildAccount)
 )
 
-// Process the registration data
-// router.post(
-//   "/",
-//   utilities.handleErrors(accountController.buildAccount)
-//   // regValidate.registrationRules(),
-//   // regValidate.checkRegData,
-//   // utilities.handleErrors(accountController.registerAccount)
+/*********************************
+ * Unit 5: Edit User
+ *********************************/
+router.get(
+  "/update-View",
+  utilities.handleErrors(accountController.buildAccountEdit)
+)
 
-  //RPH: For now simply go to blank page
-  // (req, res) => {
-  //   res.status(200).send('You are logged in')
-  // }
-//)
+//Update
+router.post(
+  "/updated",
+  regValidate.editUserRules(),
+  regValidate.checkUserEditData,
+  utilities.handleErrors(accountController.updateAccount)
+)
 
+//2nd update
+router.post(
+  "/updatedPassword",
+  regValidate.editPasswordRules(),
+  regValidate.checkUserEditPasswordData,
+  utilities.handleErrors(accountController.updateAccountPassword)
+)
 
-  //RPH: For now simply go to blank page
-  // (req, res) => {
-  //   res.status(200).send('login process')
-  // }
+/*********************************
+ * Unit 5: Logout Activity
+ *********************************/
+router.get("/logout", utilities.handleErrors(accountController.buildLogout))
 
 module.exports = router; 

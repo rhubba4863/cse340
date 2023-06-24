@@ -41,7 +41,7 @@ invCont.buildByModalId = async function (req, res, next) {
 ******************************************************/
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
-  const classificationSelect = await utilities.getClassTypes()
+  const classificationSelect = await utilities.buildClassificationList()
   res.render("./inventory/management", {
     title: "Vehicle Management",
     nav,
@@ -61,7 +61,7 @@ invCont.buildNewClassification = async function (req, res, next) {
 
 invCont.buildNewVehicle = async function (req, res, next) {
   let nav = await utilities.getNav()
-  let brands = await utilities.getClassTypes()
+  let brands = await utilities.buildClassificationList()
   res.render("inventory/add-Inventory", {
     title: "Add New Inventory",
     nav,
@@ -142,7 +142,7 @@ invCont.registerNewCar = async function (req, res) {
     //All peices transferred: first_name, last_name
   )
 
-  const classificationSelect = await utilities.getClassTypes()
+  const classificationSelect = await utilities.buildClassificationList()
 
   if (regResult) {
     //RPH: Recall so new Car Inserted
@@ -195,11 +195,9 @@ invCont.editInventoryView = async function (req, res, next) {
   //const itemData = await invModel.getInventoryById(inv_id)
   const itemData = await invModel.getModalFeatures(inv_id)
     
-  let brands = await utilities.getClassTypes(itemData.classification_id)
-  console.log("4) Hello world!"+itemData.classification_id);
-  console.log("5) Hello world!"+inv_id);
+  let brands = await utilities.buildClassificationList(itemData.classification_id)
 
-  const classificationSelect = await utilities.getClassTypes(itemData.classification_id)
+  const classificationSelect = await utilities.buildClassificationList(itemData.classification_id)
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`
   res.render("./inventory/edit-Inventory", {
     title: "Edit " + itemName,

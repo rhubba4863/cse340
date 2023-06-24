@@ -46,13 +46,6 @@ validate.checkClassData = async (req, res, next) => {
  * ********************************* */
 validate.inventoryRegisterRules = () => { 
   return [
-    // classification is required and must be string
-    // body("classification_id")
-    //   .trim()
-    //   .isString()
-    //   .isLength({ min: 2 })
-    //   .withMessage("Please provide a classification."), // on error this message is sent.
-
     body("classification_id")
     .trim()
     .isNumeric()
@@ -159,7 +152,7 @@ validate.checkInventoryData = async (req, res, next) => {
 
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
-    let brands = await utilities.getClassTypes()
+    let brands = await utilities.buildClassificationList()
     res.render("inventory/add-Inventory", {
       errors,
       title: "Add New Inventory", //Keep same title
@@ -196,8 +189,6 @@ validate.checkUpdateData = async (req, res, next) => {
     //All peices transferred: first_name, last_name...
   } = req.body
   
-  //Carrots
-  // const inv_id2 = parseInt(req.params.inv_id)
   const itemData = await invModel.getModalFeatures(inv_id)
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`
 
@@ -206,7 +197,7 @@ validate.checkUpdateData = async (req, res, next) => {
 
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
-    let brands = await utilities.getClassTypes()
+    let brands = await utilities.buildClassificationList()
     res.render("./inventory/edit-Inventory", {
       errors,
       title: "Edit " + itemName, 

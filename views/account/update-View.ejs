@@ -1,0 +1,54 @@
+
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+<h2>Account Update</h2>
+
+<form action="/account/updated/" method="post">
+  <fieldset class="backBox">
+    <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+    
+    <label class="editInput" for="accountFirstname">First name:</label>
+    <Input class="editInput" type="text" name="account_firstname" id="accountFirstname" 
+      minlength="1" maxlength="30"
+      required value="<%= accountData.account_firstname %>"><br>
+    
+    <label class="editInput" for="accountLastName">Last name:</label>
+    <Input class="editInput" type="text" name="account_lastname" id="accountLastName" 
+      minlength="1" maxlength="30"
+      required value="<%= accountData.account_lastname %>"><br>
+    
+    <label class="editInput" for="email">Email Address:</label>
+    <Input class="editInput" type="email" name="account_email" id="email" required placeholder="Enter a valid email address"
+       value="<%= accountData.account_email %>"><br>
+  <button class="editInput" id="mainFeatures" type="submit">Update Account</button>
+  </fieldset>
+</form>
+
+<h2>Password Update</h2>
+
+<form action="/account/updatedPassword/" method="post">
+  <fieldset class="backBox">
+    <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+
+    <label class="editInput" for="password">New Password:</label>
+    <Input class="editInput" type="password" name="account_password" id="password" required
+       pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><br>
+    <label class="editInput">Passwords must be minimum of 12 characters and include: </label><br>
+    <label class="editInput">1 capital letter, 1 number, and 1 special character.</label><br>
+  <button class="editInput" id="passwordChangeButton" type="submit">Update Password</button>
+  </fieldset>  
+</form>

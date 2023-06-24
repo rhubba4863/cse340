@@ -29,9 +29,9 @@ Util.getNav = async function (req, res, next) {
 
 /* ************************
  * Constructs the dropdown HTML list
- * a.k.a buildClassificationList()
+ * a.k.a getClassTypes()
  ************************** */
-Util.getClassTypes = async function(req, res, next){
+Util.buildClassificationList = async function(req, res, next){
   let data = await invModel.getClassifications()
   let classifications = '<select name="classification_id" id="classificationList">'
   classifications +=  '<option value="none" selected disabled hidden>Choose here</option>'
@@ -41,42 +41,6 @@ Util.getClassTypes = async function(req, res, next){
   classifications += '</select>'
   return classifications
 }
-
-
-// Util.getClassTypes = async function (req, res, next, classification_id=null) {
-//   let data = await invModel.getClassifications()
-//   let list = "<select name='classification_id' id='classificationList' class='classification-options'>"
-  
-//   console.log("7) Hello world!"+classification_id);
-
-// //Attempt 1
-//   //list +=   '<option value="none" selected disabled hidden>Choose here</option>'
-//   data.rows.forEach((row) => {
-//     list +=
-//       '<option value="' + row.classification_id +
-//       '">' +
-//       row.classification_name +
-//       "</option>"
-//   })
-//   list += "</select>"
-
-
-  // RPH CARROT - Choose when to show and when not to
-//   list +=   '<option value="" disabled hidden>Choose here</option>'
-//   data.rows.forEach((row) => {
-//     console.log("8) Hello world!"+classification_id);
-//     list +=
-//       '<option value="' + row.classification_id  
-//       if(classification_id!=null && 
-//         classification_id==row.classification_id) 
-//       { list+=" selected "} 
-//     list+='">' +
-//       row.classification_name +
-//       "</option>"
-//   })
-//   list += "</select>"
-//   return list
-// }
 
 /* **************************************
 * Build the classification view HTML
@@ -191,12 +155,23 @@ Util.checkJWTToken = (req, res, next) => {
      }
      res.locals.accountData = accountData
      res.locals.loggedin = 1
+
      next()
     })
   } else {
     //If no cookie, moves to next procss
    next()
   }
+ }
+
+ /* ****************************************
+ *  Check Logging out
+ *  Unit 5
+ * ************************************ */
+ Util.makeLogout = (req, res, next) => {
+  req.flash("notice","Please log in")
+  res.clearCookie("jwt")
+  return res.redirect("/account/login")
  }
 
  /* ****************************************
@@ -213,6 +188,18 @@ Util.checkJWTToken = (req, res, next) => {
     return res.redirect("/account/login")
   }
  }
+
+
+Util.checkUserPermission = async (req, res, next) => {
+  const rank = (res.locals.accountData.account_type)
+  
+  if(rank=="Employee" || rank=="Admin"){
+    next() 
+  }else{
+    req.flash("error", "Please log in or use different account.")
+    return res.redirect("/account/login")
+  }
+}
 
 //NOTE - ALWAYS LAST STEP - RPH/TEACHER
 module.exports = Util

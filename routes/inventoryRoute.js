@@ -8,7 +8,8 @@ const regValidate = require('../utilities/inventory-validation')
 
 
 // Route to build inventory by classification view
-router.get("/type/:classificationId", utilities.handleErrors(
+router.get("/type/:classificationId", 
+  utilities.handleErrors(
   invController.buildByClassificationId));
 //Show details of 1 car
 router.get("/detail/:id", utilities.handleErrors(
@@ -16,13 +17,16 @@ router.get("/detail/:id", utilities.handleErrors(
 
 //Unit 4: Show "Inventory Management" page  
 //With "/" simply listening for "inv" shown in "server.js" http://localhost:5500/inv
-router.get("/", utilities.handleErrors(
+router.get("/", 
+  utilities.checkUserPermission,
+  utilities.handleErrors(
   invController.buildManagement)); //RPH Unit 4 
 
 /* ******************************
  * Deliver Classification View
  * ***************************** */
 router.get("/add-Classification", 
+  utilities.checkUserPermission,
   utilities.handleErrors(invController.buildNewClassification))
 
   //Unit4-Part2
@@ -37,11 +41,13 @@ router.post(
 /* ******************************
  * Deliver Inventory View
  * ***************************** */
-router.get("/add-Inventory", utilities.handleErrors(
-  invController.buildNewVehicle)); //RPH Unit 4 
+router.get("/add-Inventory", 
+  utilities.checkUserPermission,
+  utilities.handleErrors(invController.buildNewVehicle)); //RPH Unit 4 
 
 router.post(
   "/add-Inventory",
+  utilities.checkUserPermission,
   regValidate.inventoryRegisterRules(),
   regValidate.checkInventoryData,
   utilities.handleErrors(invController.registerNewCar)
@@ -60,7 +66,7 @@ router.get(
  * Unit 5 - Update Inventory Information
  * ***************************** */
 router.get("/edit/:inv_id", 
-  //CARROT
+  utilities.checkUserPermission,
   utilities.handleErrors(invController.editInventoryView)
 )
 
@@ -85,6 +91,7 @@ router.post("/update/",
  * ***************************** */
 router.get(
   "/delete/:inv_id",
+  utilities.checkUserPermission,
   utilities.handleErrors(invController.deleteView)
 )
 
@@ -94,9 +101,9 @@ router.get(
  * ***************************** */
 router.post(
   "/delete",
+  utilities.checkUserPermission,
   utilities.handleErrors(invController.deleteItem)
 )
-
 
 
 
