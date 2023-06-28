@@ -74,7 +74,9 @@ app.use("/inv", require("./routes/inventoryRoute"))
 // Unit 4 - Account Routes
 app.use("/account", require("./routes/accountRoute"))
 // Final Project - Message Routes
-app.use("/message", require("./routes/messageRoute"))
+// app.use("/message", require("./routes/messageRoute"))
+const messageRoute = require("./routes/messageRoute");
+app.use("/", messageRoute);
 
 
 // error link - Simpler

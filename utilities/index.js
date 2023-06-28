@@ -35,11 +35,11 @@ Util.getNav = async function (req, res, next) {
 
 //First try all messages, then those for 
 //specific guy
-Util.getMessages = async function (){
-  let data = await accModel.getMessages()
+// Util.getMessages = async function (){
+//   let data = await accModel.getMessages()
 
-  //accModel
-}
+//   //accModel
+// }
 
  // Build inventory items into HTML table components and inject into DOM 
 Util.buildMessageList = async function() {

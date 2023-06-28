@@ -96,24 +96,11 @@ async function getUsers(){
   return await pool.query("SELECT * FROM public.account ORDER BY account_firstname")
 }
 
-/*********************************************************************** */
 
-/* ***************************
- *  Get all message data
- * (Get all classifications and info for each)
- * ************************** */
-async function getMessages(){
-  return await pool.query("SELECT * FROM public.message ORDER BY message_id")
-}
-
-// async function getMessages(receivedBy){
-//   return await pool.query("SELECT * FROM public.message ORDER BY message_id WHERE message_to = "
-//   +"$1",[receivedBy])
-// }
 
 
 
 //Export for use
 module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, 
   updateAccountToDatabase, updateAccountPasswordToDatabase, getAccountByID, 
-  getUsers, getMessages}
+  getUsers}

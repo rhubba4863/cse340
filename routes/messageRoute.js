@@ -13,8 +13,14 @@ const utilities = require("../utilities")
 * Deliver Message View
 * Final Project
 * **********************************/
-router.get("/messagesPage", 
-utilities.handleErrors(messageController.buildMessageGroup))
+router.get("/messageinbox", 
+utilities.handleErrors(messageController.messageInbox))
+
+// // Route to inbox
+// router.get('/inbox/:login_id', (req, res, next) => {
+//   console.log("Entered /inbox/:login_id route");
+//   next();
+// }, Util.checkLogin, Util.handleErrors(messageController.buildInbox));
 
 router.get("/newMessage", 
 utilities.handleErrors(messageController.buildNewMessagePage))

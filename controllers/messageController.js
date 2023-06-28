@@ -7,14 +7,15 @@ const accountModel = require("../models/account-model.js")
 /* ****************************************
 *  Deliver login view
 * *************************************** */
-async function buildMessageGroup(req, res, next) {
+async function messageInbox(req, res, next) {
   let nav = await utilities.getNav()
+
   // console.log("FOUND "+ accountData.account_id)
-  //let messageTable = await utilities.buildMessageList()
+  let messageTable = await utilities.buildMessageList()
   // console.log("GOING "+ nav.account_id)
   // console.log("GOING "+ nav.account_id)
   //  console.log("GOING "+ nav.account_id)
-  res.render("/messagesPage", {
+  res.render("./message/messageinbox", {
     title: "Inbox",
     nav,
     errors: null,
@@ -39,4 +40,4 @@ async function buildNewMessagePage(req, res, next) {
 }
 
 //Export for use
-module.exports = {  buildMessageGroup, buildNewMessagePage}
+module.exports = {  messageInbox, buildNewMessagePage}

@@ -88,6 +88,9 @@ async function buildAccount(req, res, next) {
 
   let nav = await utilities.getNav()
   let manageVersion = await getManagementPage(data)
+  console.log("-----------------------------------------------------")
+
+  console.log("Pigs"+data.account_firstname)
 
   res.render("./account/account-Management", {
     title: "Account Management",
@@ -108,7 +111,7 @@ async function getManagementPage (data) {
   view += "<h3>Message Center</label></h3>"
   view += "<ul>"
   view += "<li>You have XXX unread messages</li>"
-  view += '<li>Go to <a href="/message/main-Message-Page" title="Message Inbox">inbox</a></li>'
+  view += '<li>Go to <a href="/messageinbox" title="Message Inbox">inbox</a></li>'
   view += "</ul>"
 
 
@@ -120,6 +123,8 @@ async function getManagementPage (data) {
 
   return view
 }
+
+
 
 /* ****************************************
 *  Deliver edit user view
