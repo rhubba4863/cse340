@@ -2,6 +2,7 @@
 const express = require("express")
 const router = new express.Router() 
 const invController = require("../controllers/invController")
+const messageController = require("../controllers/messageController")
 const utilities = require("../utilities/") //RPH 4
 
 const regValidate = require('../utilities/inventory-validation')
@@ -105,7 +106,18 @@ router.post(
   utilities.handleErrors(invController.deleteItem)
 )
 
+/*********************************
+ * Unit 6: Message Activity
+ *********************************/
+/***********************************
+* Deliver Message View
+* Final Project
+* **********************************/
+router.get("/messagesPage", 
+utilities.handleErrors(messageController.buildMessageGroup))
 
+router.get("/newMessage", 
+utilities.handleErrors(messageController.buildNewMessagePage))
 
   // router.get("/",  (req, res) => {
   //   res.status(200).send('Series of unfortunate events')

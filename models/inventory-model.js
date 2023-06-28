@@ -126,4 +126,5 @@ async function deleteInventoryItem(inv_id){
 }
 
 //Add all Methods here to export
-module.exports = {getClassifications, getInventoryByClassificationId, getModalFeatures, registerClassification, registerIntoInventory, deleteInventoryItem};
+module.exports = {getClassifications, getInventoryByClassificationId, getModalFeatures, 
+  registerClassification, registerIntoInventory, deleteInventoryItem};

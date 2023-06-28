@@ -1,0 +1,28 @@
+<% if (title) { %>
+<h1><%= accountData.account_firstname %> <%= accountData.account_lastname %> <%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+<ul>
+  <li><a href="/message/newMessage" title="Message Inbox">Create a New Message</a></li>
+  <li><a href="/message/ROUTERNAME" title="Message Inbox">View MMMM Archived Message(s)</a></li>
+</ul>
+
+<!-- <table id="inventoryDisplay"></table> -->
+
+<%- messageTable %>
+
+<!-- Table Below -->
+
+

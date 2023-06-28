@@ -73,7 +73,8 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 app.use("/inv", require("./routes/inventoryRoute"))
 // Unit 4 - Account Routes
 app.use("/account", require("./routes/accountRoute"))
-
+// Final Project - Message Routes
+app.use("/message", require("./routes/messageRoute"))
 
 
 // error link - Simpler

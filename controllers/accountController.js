@@ -105,7 +105,13 @@ async function getManagementPage (data) {
   view += "<h2>Welcome "+name+"</h2>"
   view += "<label>You're logged in</label><br>"
   view += '<p class="casualLink"><a href="/account/update-View" title="Edit Users Account">Edit Account Information</a></p>'
-  
+  view += "<h3>Message Center</label></h3>"
+  view += "<ul>"
+  view += "<li>You have XXX unread messages</li>"
+  view += '<li>Go to <a href="/message/main-Message-Page" title="Message Inbox">inbox</a></li>'
+  view += "</ul>"
+
+
   if(rank=="Employee" || rank=="Admin"){
     view += "<h3>Inventory Management</h3>"
     view += '<p class="casualLink"><a href="/inv" title="Oversee Inventory">Manage Inventory</a></p>'
@@ -239,7 +245,7 @@ async function updateAccountPassword(req, res) {
   } catch (error) {
     req.flash("notice", 'Sorry, there was an error processing the registration.')
     res.status(500).render("account/update-View", {
-      title: "Registration56",
+      title: "Registration",
       nav,
       errors: null,
     })
@@ -280,13 +286,57 @@ async function updateAccountPassword(req, res) {
     req.flash("notice", "Sorry, the password update failed.")
 
     res.status(501).render("account/update-View", {
-      title: "Edit Account33",
+      title: "Edit Account",
       nav,
       errors: null,
     })
   }
 }
 
+/* ****************************************
+*  Message Level PARKERH
+* *************************************** */
+/* ****************************************
+*  Deliver login view
+* *************************************** */
+async function buildMessageGroup(req, res, next) {
+    console.log("AAAAA")
+    console.log("AAAAA")
+    console.log("AAAAA")
+
+  let nav = await utilities.getNav()
+  // console.log("FOUND "+ accountData.account_id)
+  let messageTable = await utilities.buildMessageList()
+  // console.log("GOING "+ nav.account_id)
+  // console.log("GOING "+ nav.account_id)
+  //  console.log("GOING "+ nav.account_id)
+  res.render("/message/message-Main-Page", {
+    title: "Inbox",
+    nav,
+    errors: null,
+    messageTable,
+  })
+}
+
+/* ****************************************
+*  Deliver new message view
+* *************************************** */
+async function buildNewMessagePage(req, res, next) {
+  let nav = await utilities.getNav()
+   const myUsers = await utilities.buildUserList()
+  // const myMessages = await utilities.buildMessageList()
+  //const myUsers = await utilities.buildClassificationList()
+
+  res.render("/message/new-Message-Page", {
+    title: "New Message",
+    nav,
+    errors: null,
+    myUsers,
+  })
+}
+
+
 //Export for use
 module.exports = { buildLogin, buildRegister,  registerAccount, accountLogin, 
-  buildAccount, buildAccountEdit, updateAccount, updateAccountPassword, buildLogout}
+  buildAccount, buildAccountEdit, updateAccount, updateAccountPassword, buildMessageGroup,
+  buildNewMessagePage, buildLogout}
