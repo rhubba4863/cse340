@@ -114,7 +114,6 @@ async function getManagementPage (data) {
   view += '<li>Go to <a href="/messageinbox" title="Message Inbox">inbox</a></li>'
   view += "</ul>"
 
-
   if(rank=="Employee" || rank=="Admin"){
     view += "<h3>Inventory Management</h3>"
     view += '<p class="casualLink"><a href="/inv" title="Oversee Inventory">Manage Inventory</a></p>'

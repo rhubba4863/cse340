@@ -1,5 +1,7 @@
 const invModel = require("../models/inventory-model")
 const accModel = require("../models/account-model")
+const mesModel = require("../models/message-model")
+
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const Util = {}
@@ -35,15 +37,15 @@ Util.getNav = async function (req, res, next) {
 
 //First try all messages, then those for 
 //specific guy
-// Util.getMessages = async function (){
-//   let data = await accModel.getMessages()
+Util.getMessages = async function (){
+  let data = await mesModel.getMessages()
 
-//   //accModel
-// }
+  //accModel
+}
 
  // Build inventory items into HTML table components and inject into DOM 
 Util.buildMessageList = async function() {
-  let data = await accModel.getMessages()
+  let data = await mesModel.getMessages()
   let messageTable = '<tbody>'; 
    
   messageTable += '<table>'; 
@@ -96,7 +98,7 @@ function getDateFrom (date){
 return date.getMonth() + '/' + (date.getDate()+1) + '/' + date.getFullYear() + ", " + strTime
 }
   
-//   let data = await accModel.getMessages()
+//   let data = await mesModel.getMessages()
  
 //  // let inventoryDisplay = document.getElementById("normalMessages"); 
 //   // Set up the table labels 

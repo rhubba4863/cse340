@@ -19,6 +19,7 @@ async function messageInbox(req, res, next) {
     title: "Inbox",
     nav,
     errors: null,
+    messageTable,
   })
 }
 
