@@ -1,5 +1,6 @@
 const utilities = require("../utilities/") //RPH 4
 const accountModel = require("../models/account-model.js")
+const mesModel = require("../models/message-model.js")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -103,15 +104,17 @@ async function buildAccount(req, res, next) {
 async function getManagementPage (data) {
   let rank = data.account_type
   let name = data.account_firstname
+  let unread= (await mesModel.getMessages()).rows.length
   let view = "";
 
+  //PARKER XXX
   view += "<h2>Welcome "+name+"</h2>"
   view += "<label>You're logged in</label><br>"
   view += '<p class="casualLink"><a href="/account/update-View" title="Edit Users Account">Edit Account Information</a></p>'
   view += "<h3>Message Center</label></h3>"
   view += "<ul>"
-  view += "<li>You have XXX unread messages</li>"
-  view += '<li>Go to <a href="/messageinbox" title="Message Inbox">inbox</a></li>'
+  view += "<li>You have "+unread+" unread messages</li>"
+  view += '<li>Go to <a href="/message/messageinbox" title="Message Inbox">inbox</a></li>'
   view += "</ul>"
 
   if(rank=="Employee" || rank=="Admin"){
@@ -297,50 +300,9 @@ async function updateAccountPassword(req, res) {
   }
 }
 
-/* ****************************************
-*  Message Level PARKERH
-* *************************************** */
-/* ****************************************
-*  Deliver login view
-* *************************************** */
-async function buildMessageGroup(req, res, next) {
-    console.log("AAAAA")
-    console.log("AAAAA")
-    console.log("AAAAA")
 
-  let nav = await utilities.getNav()
-  // console.log("FOUND "+ accountData.account_id)
-  let messageTable = await utilities.buildMessageList()
-  // console.log("GOING "+ nav.account_id)
-  // console.log("GOING "+ nav.account_id)
-  //  console.log("GOING "+ nav.account_id)
-  res.render("/message/message-Main-Page", {
-    title: "Inbox",
-    nav,
-    errors: null,
-    messageTable,
-  })
-}
-
-/* ****************************************
-*  Deliver new message view
-* *************************************** */
-async function buildNewMessagePage(req, res, next) {
-  let nav = await utilities.getNav()
-   const myUsers = await utilities.buildUserList()
-  // const myMessages = await utilities.buildMessageList()
-  //const myUsers = await utilities.buildClassificationList()
-
-  res.render("/message/new-Message-Page", {
-    title: "New Message",
-    nav,
-    errors: null,
-    myUsers,
-  })
-}
 
 
 //Export for use
 module.exports = { buildLogin, buildRegister,  registerAccount, accountLogin, 
-  buildAccount, buildAccountEdit, updateAccount, updateAccountPassword, buildMessageGroup,
-  buildNewMessagePage, buildLogout}
+  buildAccount, buildAccountEdit, updateAccount, updateAccountPassword, buildLogout}

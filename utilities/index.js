@@ -35,6 +35,12 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
+Util.countMessages = async function (){
+  let data = await mesModel.getMessages()
+
+  //accModel
+}
+
 //First try all messages, then those for 
 //specific guy
 Util.getMessages = async function (){
@@ -42,81 +48,7 @@ Util.getMessages = async function (){
 
   //accModel
 }
-
- // Build inventory items into HTML table components and inject into DOM 
-Util.buildMessageList = async function() {
-  let data = await mesModel.getMessages()
-  let messageTable = '<tbody>'; 
-   
-  messageTable += '<table>'; 
-  messageTable += '<thead>';
-  messageTable += '<tr><th>Received</th><th>Subject</th><th>From</th><th>Read</th></tr>'; 
-  messageTable += '</thead>';
-  console.log("ROW: "+data.rows.length)
-
-  //https://stackoverflow.com/questions/4380469/how-do-you-convert-a-javascript-timestamp-into-utc-format?rq=3
-  //https://www.w3schools.com/html/html_table_padding_spacing.asp
-  // https://www.w3schools.com/js/js_date_formats.asp
-  data.rows.forEach(oneMessage => {
-    let bday = oneMessage.message_created;
-    console.log("help1")
-    console.log("help2 "+ (new Date(bday)).toUTCString())
-    console.log("help3 "+ (getDateFrom(bday)))
-    console.log("help4 " )
-
-
-
-    messageTable += '<tr>'
-    messageTable += '<td>' + bday.getDate() +" "+ bday.getTime()+ '</td>' 
-    messageTable += '<td><a href="/account/ROUTERNAME" title="View Message">' 
-      + oneMessage.message_subject + '</a></td>'
-    messageTable += '<td>' + oneMessage.message_from + '</td>'
-    messageTable += '<td>' + oneMessage.message_read + '</td>'
-    messageTable += '</tr>'
-  }) 
-  messageTable += '</table>'; 
-  messageTable += '</tbody>'; 
-
-  return messageTable  
-}
-  
-function getDateFrom (date){
-
-
-  let hours = date.getHours();
-  let minutes = date.getMinutes();
-  let ampm = hours >= 12 ? 'pm' : 'am';
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  if(hours == 0){
-    hours = 12;
-  }
-  minutes = minutes < 10 ? '0'+minutes : minutes;
-  var strTime = hours + ':' + minutes + ' ' + ampm;
-
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDate
-return date.getMonth() + '/' + (date.getDate()+1) + '/' + date.getFullYear() + ", " + strTime
-}
-  
-//   let data = await mesModel.getMessages()
- 
-//  // let inventoryDisplay = document.getElementById("normalMessages"); 
-//   // Set up the table labels 
-//   let messageTable = '<thead>'; 
-//   messageTable += '<tr><th>Received</th><th>Subject</th><th>From</th><th>Read</th></tr>'; 
-//   messageTable += '</thead>'; 
-//   // Set up the table body 
-//   messageTable += '<tbody>'; 
-//   // Iterate over all vehicles in the array and put each in a row 
-//   data.forEach(function (element) { 
-//     //  console.log(element.inv_id + ", " + element.inv_model); 
-//     messageTable += `<tr><td>${element.inv_make} ${element.inv_model}</td>`;    
-//   }) 
-//   dataTable += '</tbody>'; 
-//   // Display the contents in the Inventory Management view 
-//   //inventoryDisplay.innerHTML = dataTable; 
-// }
-
+    
 /* ************************
  * Constructs the dropdown HTML list
  * a.k.a getClassTypes()
@@ -139,6 +71,19 @@ Util.buildClassificationList = async function(req, res, next){
 Util.buildUserList = async function(req, res, next){
   let data = await accModel.getUsers()
   let classifications = '<select name="account_id" id="accountList">'
+  classifications +=  '<option value="none" selected disabled hidden>Select a recipient</option>'
+  data.rows.forEach(user => {
+    classifications += '<option value="' + user.account_id + '">' + user.account_firstname 
+    + " " + user.account_lastname + "</option>"
+  }) 
+  classifications += '</select>'
+  return classifications
+}
+
+Util.buildTheUserList = async function(req, res, next){
+  const accModel = require("../models/account-model.js")
+  let data = await accModel.getUsers()
+  let classifications = '<select name="message_to" id="accountList">'
   classifications +=  '<option value="none" selected disabled hidden>Select a recipient</option>'
   data.rows.forEach(user => {
     classifications += '<option value="' + user.account_id + '">' + user.account_firstname 
@@ -311,7 +256,39 @@ Util.checkUserPermission = async (req, res, next) => {
  *  Messages
  *  
  * ************************************ */
+/* ************************
+ * Create the date
+ * 12343.... to 5/30/2023, 2:00 PM
+ ************************** */
+Util.getDateFrom = async function(date){
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  if(hours == 0){
+    hours = 12;
+  }
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
 
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDate
+let finalDate = date.getMonth() + '/' + (date.getDate()+1) + '/' 
+  + date.getFullYear() + ", " + strTime
+  return finalDate
+}
+
+Util.getFullNameById = async function(id){
+  let anAccount = await accountModel.getAccountByID(id)
+  let name = anAccount.account_firstname + " "+ anAccount.account_lastname
+  return name
+}
+
+Util.getFullName = async function(id){
+  let anAccount = await accountModel.getAccountByID(oneMessage.message_from)
+  let name = anAccount.account_firstname + " "+ anAccount.account_lastname
+  return name
+}
 
 //NOTE - ALWAYS LAST STEP - RPH/TEACHER
 module.exports = Util

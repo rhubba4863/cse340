@@ -534,9 +534,15 @@ input:focus:required:invalid{
 /******************
 * Messages Main Page
 *******************/
+.myMessages td, th{
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
 
-
-
+.myMessages tr:nth-child(even) {
+  background-color: #dddddd;
+}
 
 /* text adjusted to picture - https://www.geeksforgeeks.org/how-to-wrap-the-text-around-an-image-using-html-and-css/ 
  * image position - https://www.freecodecamp.org/news/css-responsive-image-tutorial/

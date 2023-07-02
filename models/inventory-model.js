@@ -71,6 +71,7 @@ async function registerIntoInventory(classification_id, inv_make, inv_model,
   } catch (error) {
     return error.message
   }
+  
 }
 
 /* ***************************

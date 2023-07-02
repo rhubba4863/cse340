@@ -1,0 +1,30 @@
+<% if (title) { %>
+<h1><%= accountData.account_firstname %> <%= accountData.account_lastname %> <%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<h3>This is an internal system only. Recipient are limited to the threee generic accounts</h3>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+<form  action="/message/newmessagepage" method="post">
+  <label for="recipient_id">To:</label><br>
+  <%- myUsers %>
+  <br><label for="recipient">Subject:</label><br>
+  <input type="text" required name="message_subject" value="PARKER-CHANGE" placeholder="Min of 1 character"     
+  minlength="1" id="recipient"><br>
+
+  <label for="mesBody">Description</label><br>
+  <textarea rows="4" required name="message_body" minlength="1" placeholder="Min of 1 character" id="mesBody"><%= locals.message_body %>
+    </textarea><br>
+  <button>Send</button>
+</form>

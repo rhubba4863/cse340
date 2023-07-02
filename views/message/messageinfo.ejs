@@ -1,0 +1,31 @@
+<% if (title) { %>
+<h1><%= accountData.account_firstname %> <%= accountData.account_lastname %> <%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+<h2><b>Subject: </b><%= messageData.message_subject %></h2>
+<h2><b>From: </b><%= name2 %></h2>
+<h2><b>Message:</b><br></h2>
+<p><%= messageData.message_body %></p>
+
+<a href="/message/messageinbox" title="inbox">Return to Inbox</a><br>
+<button><a href="/message/ROUTERNAME" title="PARKER">Reply</a></button><br>
+<button><a href="/message/edit" title="PARKER">Mark as Read</a></button><br>
+<button><a href="/message/ROUTERNAME" title="PARKER">Archive Message</a></button><br>
+<button><a href="/delete2"  title="PARKER">Delete Message</a></button>
+<form action="/message/edit" method="post">
+  <button type="submit">Update Vehicle</button>
+</form>
+<!-- req.params.message_id  -->
+
