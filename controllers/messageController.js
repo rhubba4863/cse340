@@ -15,12 +15,19 @@ mesCont.buildMessageInbox = async function (req, res, next) {
   console.log("1) Building the inbox")
   const accountData = await accountModel.getAccountByID(res.locals.accountData.account_id)
   let messageTable = "";
+  let messageTasking = ''
   //let messageTable = await utilities.buildMessageList;
   console.log("2A) Building the inbox")
 
   try{
     console.log("2) Building the inbox")
     let data = await mesModel.getMessagesForUser(accountData)
+
+    let archive= (await mesModel.getArchiveMessagesForUserByID(accountData.account_id)).rows.length
+
+    messageTasking += '<ul><li><a href="/message/newmessagepage" title="Message Inbox">Create a New Message</a></li>'
+    messageTasking +='<li><a href="/message/messagearchiveinbox" title="Archived Messages">View '+archive
+    +' Archived Message(s)</a></li></ul>'
 
     messageTable += '<tbody>'; 
     messageTable += '<table class="myMessages">'; 
@@ -39,7 +46,6 @@ mesCont.buildMessageInbox = async function (req, res, next) {
       let anAccount = await accountModel.getAccountByID(oneMessage.message_from)
       let name = anAccount.account_firstname + " "+ anAccount.account_lastname
 
-
       //Create the row
       messageTable += '<tr>'
       messageTable += '<td>'+ date+ '</td>' 
@@ -55,12 +61,13 @@ mesCont.buildMessageInbox = async function (req, res, next) {
   } catch(err){
     console.log("3) Building the unarchived buildMessageInbox() failed")
   }
-  
+   
   res.render("./message/messageinbox", {
     title: "Inbox",
     nav,
     errors: null,
     messageTable,
+    messageTasking,
   })
 }
 
@@ -83,8 +90,8 @@ mesCont.buildTheUserList = async function(req, res, next){
 mesCont.buildNewMessagePage = async function (req, res, next) {
   let nav = await utilities.getNav()
   const myUsers = await mesCont.buildTheUserList()
-  //console.log("MAGIC3 "+res.locals.accountData.account_id)
 
+  console.log("BENBEN")
   res.render("./message/newmessagepage", {
     title: "New Message",
     nav,
@@ -96,53 +103,93 @@ mesCont.buildNewMessagePage = async function (req, res, next) {
 /* ****************************************
 *  Deliver 1 message view
 * *************************************** */
-mesCont.buildArchiveMessagePage = async function (req, res, next) {
+/* ****************************************
+*  Main Message Page
+* *************************************** */
+mesCont.buildMessageArchiveInbox = async function (req, res, next) {
   let nav = await utilities.getNav()
-  const myUsers = await mesCont.buildTheUserList()
-  let messageTable = await utilities.buildMessageList()
+  console.log("1) Building the inbox")
+  const accountData = await accountModel.getAccountByID(res.locals.accountData.account_id)
+  let messageTable = "";
+  //let messageTable = await utilities.buildMessageList;
+  console.log("2A) Building the inbox")
 
-  // const myMessages = await utilities.buildMessageList()
-  //const myUsers = await utilities.buildClassificationList()
+  try{
+    console.log("2) Building the inbox")
+    let data = await mesModel.getArchiveMessagesForUser(accountData)
 
-  res.render("message/archive", {
-    title: "PARKER-Archive",
+    messageTable += '<tbody>'; 
+    messageTable += '<table class="myMessages">'; 
+    messageTable += '<thead>';
+    messageTable += '<tr><th>Received</th><th>Subject</th><th>From</th><th>Read</th></tr>'; 
+    messageTable += '</thead>';
+     
+    // for (let index = 0; index < fruitsToGet.length; index++) {
+    // // Get num of each fruit
+    // }
+    //https://www.freecodecamp.org/news/javascript-async-and-await-in-loops-30ecc5fb3939/  
+    for (let index = 0; index < data.rows.length; index++) {
+      let oneMessage = data.rows[index]
+      let bday = oneMessage.message_created;
+      let date = await utilities.getDateFrom(bday).then()
+      let anAccount = await accountModel.getAccountByID(oneMessage.message_from)
+      let name = anAccount.account_firstname + " "+ anAccount.account_lastname
+
+
+      //Create the row
+      messageTable += '<tr>'
+      messageTable += '<td>'+ date+ '</td>' 
+      messageTable += '<td><a href="/message/messagearchiveinnerinfo/'+oneMessage.message_id+ '"title="View Message">' 
+        + oneMessage.message_subject + '</a></td>'
+      messageTable += '<td>' + name + '</td>'
+      messageTable += '<td>' + oneMessage.message_read + '</td>'
+      messageTable += '</tr>'
+    }
+
+    messageTable += '</table>'; 
+    messageTable += '</tbody>'; 
+  } catch(err){
+    console.log("3) Building the unarchived buildMessageInbox() failed")
+  }
+
+    
+  res.render("./message/archive", {
+    title: "Inbox",
     nav,
     errors: null,
-    myUsers,
     messageTable,
   })
 }
 
 /* ****************************************
-*  Deliver 1 message view
+*  Deliver 1 normal message view
 * *************************************** */
 mesCont.buildExistingMessagePage = async function (req, res, next) {
   let nav = await utilities.getNav()
   const myUsers = await mesCont.buildTheUserList()
   const accountData = await accountModel.getAccountByID(res.locals.accountData.account_id)
-  console.log("1)")
   const mess_id = req.params.message_id
-  console.log("1A)"+mess_id)
-
   const messageData = await mesModel.getMessageFeatures(mess_id);
-  console.log("2)")
 
   let anAccount = await accountModel.getAccountByID(messageData.message_from)
   let name2 = await mesCont.getFullNameFromId(messageData.message_from)
-  console.log("3)")
-  //res.locals.oneMessage
-  // const myUsers = await utilities.buildUserList()
-  // const myMessages = await utilities.buildMessageList()
-  //const myUsers = await utilities.buildClassificationList()
 
-  console.log("HHHH1"+"GG")
-  console.log("HHHH2"+"GG")
-  console.log("HHHH3"+JSON.stringify(req.body)+"GG")
-  console.log("HHHH4"+req.body.message_id+"GG")
-  console.log("HHHH5"+req.body.inv_id+"GG")
-  console.log("HHHH6"+ await mesCont.getFullNameFromId(messageData.message_from)+"")
-  console.log("HHHH7"+await mesCont.getFullNameFromId(messageData.message_to)+"")
+  let linktable = '<a href="/message/messageinbox" title="inbox">Return to Inbox</a><br>';
+  linktable += "<form action='/message/reply/"+mess_id+"' method='post'>";
+  linktable += ' <button type="submit"title="Click to reply to user">Reply</button>';
+  linktable += '</form>';
+  
+  linktable += "<form action='/message/edit/"+mess_id+"' method='post'>";
+  linktable += ' <button type="submit"title="Click to mark message read">Mark as Read</button>';
+  linktable += '</form>';
+  
+  linktable += "<form action='/message/archiveamessage/"+mess_id+"' method='post'>";
+  linktable += ' <button type="submit"title="Archive this message">Archive Message</button>';
+  linktable += '</form>';
 
+  linktable += "<form action='/message/deletion/"+mess_id+"' method='post'>";
+  linktable += ' <button type="submit"title="Click to delete">Delete Message</button>';
+  linktable += '</form>';
 
   res.render("message/messageinfo", {
     title: accountData.account_firstname +" " + accountData.account_lastname,
@@ -150,11 +197,13 @@ mesCont.buildExistingMessagePage = async function (req, res, next) {
     errors: null,
     myUsers,
     messageData,
-    name2
+    name2,
+    linktable
   })
 }
 
-mesCont.registerNewMessage = async function (req, res) {
+mesCont.registerNewMessage = async function (req, res, next) {
+  console.log("BEN HUR1")
   let nav = await utilities.getNav()
   let { 
     message_subject, message_body, 
@@ -164,6 +213,15 @@ mesCont.registerNewMessage = async function (req, res) {
     //All peices transferred: ...
   } = req.body
 
+  console.log("1PARK1 "+ message_subject)
+  console.log("1PARK2 "+ message_body)
+  console.log("1PARK3 "+ message_created)
+  console.log("1PARK4 "+ message_to)
+  console.log("1PARK5 "+ message_from)
+  console.log("1PARK6 "+ message_read)
+  console.log("1PARK7 "+ message_archived)
+
+  console.log("BEN HUR2")
   //console.log("MAGIC8 "+res.locals.accountData.account_firstname) 
   message_from = res.locals.accountData.account_id  
 
@@ -183,14 +241,11 @@ mesCont.registerNewMessage = async function (req, res) {
     //RPH: Recall so new message Inserted
     nav = await  utilities.getNav()
 
-
     req.flash(
       "notice",
       `Congratulations, message has been sent.`
     )
         
-    // console.groupCollapsed("HUBBARD - success registerNewMessage")
-
     // //Use exact file path
     //  res.status(201).render("message/messageinbox", {
     //     title: "Inventory Management",
@@ -201,7 +256,6 @@ mesCont.registerNewMessage = async function (req, res) {
      res.redirect("/message/messageinbox")
     
   } else {
-    console.groupCollapsed("HUBBARD - failed registerNewMessage")
     req.flash("notice", "Sorry, the new message creation failed.")
     res.status(501).render("/message/newmessagepage", {
       title: "Add New Inventory",
@@ -212,45 +266,164 @@ mesCont.registerNewMessage = async function (req, res) {
   }
 }
 
+mesCont.registerNewMessageFromReply = async function (req, res, next) {
+  console.log("JURASSIC PARK1")
+  let nav = await utilities.getNav()
+  let { 
+    message_subject, message_body, 
+    message_created, message_to, 
+    message_from,    message_read, 
+    message_archived,
+    //All peices transferred: ...
+  } = req.body
+
+  console.log("JURASSIC PARK2")
+  JSON.stringify(req.body)
+
+  console.log("PARK1 "+ message_subject)
+  console.log("PARK2 "+ message_body)
+  console.log("PARK3 "+ message_created)
+  console.log("PARK4 "+ message_to)
+  console.log("PARK5 "+ message_from)
+  console.log("PARK6 "+ message_read)
+  console.log("PARK7 "+ message_archived)
+
+
+  //console.log("MAGIC8 "+res.locals.accountData.account_firstname) 
+  message_from = res.locals.accountData.account_id  
+
+  // //Where the data is sent to the modal
+  // const mesResult = await mesModel.registerIntoMessages(
+  //   message_subject, message_body, 
+  //   message_created, message_to, 
+  //   message_from,    message_read, 
+  //   message_archived,
+  //   //All peices transferred: ...
+  // )
+
+  // const messageTable = await utilities.buildClassificationList()
+
+  // //if (!mesResult) to test the else statement
+  // if (mesResult) {
+  //   //RPH: Recall so new message Inserted
+  //   nav = await  utilities.getNav()
+
+
+  //   req.flash(
+  //     "notice",
+  //     `Congratulations, message has been sent.`
+  //   )
+        
+  //   // //Use exact file path
+  //   //  res.status(201).render("message/messageinbox", {
+  //   //     title: "Inventory Management",
+  //   //     nav,
+  //   //     messageTable,
+  //   //     errors: null,
+  //   //   })
+  //    res.redirect("/message/messageinbox")
+    
+  // } else {
+  //   req.flash("notice", "Sorry, the new message creation failed.")
+  //   res.status(501).render("/message/newmessagepage", {
+  //     title: "Add New Inventory",
+  //     nav,
+  //     classificationSelect,
+  //     errors: null
+  //   })
+  // }
+}
+
 /* ***************************
- *  Delete opened row
+ *  Archive this message
  * ************************** */
-mesCont.deleteMessage = async function (req, res, next) {
+mesCont.archiveCurrentMessage = async function (req, res, next) {
   //const inv_id = parseInt(req.body.inv_id)
   let nav = await utilities.getNav()
 
-  console.log("DOGGY1 ")
+  const mess_id = req.params.message_id 
+  const archiveResult = await mesModel.archiveTheMessage(mess_id)
+
+  if(archiveResult){  
+    req.flash("notice", 'The message was successfully archived.')
+    res.redirect('/message/messagearchiveinbox')
+  } else {
+    req.flash("notice", 'Sorry, archiving the failed.')
+    res.redirect('/message/messagearchiveinnerinfo/'+mess_id)
+  }
+}
+
+/* ***************************
+ *  Delete opened row
+ * ************************** */
+mesCont.deleteCurrentMessagePage = async function (req, res, next) {
+  //const inv_id = parseInt(req.body.inv_id)
+  let nav = await utilities.getNav()
 
   const mess_id = req.params.message_id 
+  const deleteResult = await mesModel.deleteTheMessage(mess_id)
 
-  console.log("DOGGY2 "+ mess_id)
-  console.log("DOGGY3 "+ mess_id)
-  console.log("DOGGY4 "+ mess_id)
-
-//   const deleteResult = await invModel.deleteInventoryItem(inv_id)
-  
-//   if(deleteResult){
-//     req.flash("notice", 'The deletion was successful.')
-     res.redirect('/inv/')
-//   } else {
-//     req.flash("notice", 'Sorry, the delete failed.')
-//     res.redirect('/inv/delete/inv_id')
-//   }
+  if(deleteResult){  
+    req.flash("notice", 'The message deletion was successful.')
+    res.redirect('/message/messageinbox')
+  } else {
+    req.flash("notice", 'Sorry, the delete failed.')
+    res.redirect('/message/delete/'+mess_id)
+  }
 }
+
+/* ***************************
+ *  Reply to message
+ * ************************** */
+mesCont.replyToCurrentMessage = async function (req, res, next) {
+  //const inv_id = parseInt(req.body.inv_id)
+  let nav = await utilities.getNav()
+  const mess_id = req.params.message_id 
+  const myUsers = await mesCont.buildTheUserList()
+  const accountData = await accountModel.getAccountByID(res.locals.accountData.account_id)
+  const messageData = await mesModel.getMessageFeatures(mess_id);
+
+  const message = await mesModel.getMessageFeatures(mess_id)
+    
+  console.log("FANG0 ")
+  console.log("FANG5 "+ accountData.account_id)
+  JSON.stringify(messageData)
+  
+  res.render("message/replynewmessagepage", {
+    title: "Reply To: "+ accountData.account_firstname +" " + accountData.account_lastname,
+    nav,
+    errors: null,
+    myUsers,
+    messageData,
+    accountData,
+  })
+
+  //await mesCont.registerNewMessage(req, res)
+  console.log("FANG5 "+ mess_id)
+
+
+  // if(deleteResult){  
+  //   req.flash("notice", 'The message deletion was successful.')
+  //   res.redirect('/message/messageinbox')
+  // } else {
+  //   req.flash("notice", 'Sorry, the delete failed.')
+  //   res.redirect('/message/delete/'+mess_id)
+  // }
+}
+
 
 /* ***************************
  *  Mark as read
  * ************************** */
-mesCont.markAsRead = async function (req, res, next) {
-  console.log("STONE1 ")
+mesCont.markAsRead22 = async function (req, res, next) {
+  const message_id = parseInt(req.params.message_id)
+  let nav = await utilities.getNav()
 
-  const mess_id = req.params.message_id 
-  JSON.stringify(req.body)
-
-  console.log("STONE2 "+ mess_id)
-  console.log("HHHH4"+req.body.message_id+"GG")
-  console.log("HHHH5"+req.body.inv_id+"GG")
+  let messageData = await mesModel.getMessageFeatures(message_id)
+  mesModel.makeMessageRead(message_id)
+  res.redirect("/message/messageinbox")
 }
+
 
 mesCont.buildUserList = async function(req, res, next){
   const accModel = require("../models/account-model.js")
@@ -271,8 +444,39 @@ mesCont.getFullNameFromId = async function(id){
   return name;
 }
 
-//Export for use
-// module.exports = {  buildMessageInbox, buildNewMessagePage, buildExistingMessagePage, 
-//   buildArchiveMessagePage}
+/* ****************************************
+*  Deliver 1 archived message view
+* *************************************** */
+mesCont.buildExistingArchiveMessagePage = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const myUsers = await mesCont.buildTheUserList()
+  const accountData = await accountModel.getAccountByID(res.locals.accountData.account_id)
+  const mess_id = req.params.message_id
+  const messageData = await mesModel.getMessageFeatures(mess_id);
 
+  let anAccount = await accountModel.getAccountByID(messageData.message_from)
+  let name2 = await mesCont.getFullNameFromId(messageData.message_from)
+
+  let linktable = '<a href="/message/messageinbox" title="inbox">Return to Inbox</a><br>';
+    
+  linktable += "<form action='/message/edit/"+mess_id+"' method='post'>";
+  linktable += ' <button type="submit"title="Click to mark message read">Mark as Read</button>';
+  linktable += '</form>';
+  
+  linktable += "<form action='/message/deletion/"+mess_id+"' method='post'>";
+  linktable += ' <button type="submit"title="Click to delete">Delete Message</button>';
+  linktable += '</form>';
+
+  res.render("message/messageinfo", {
+    title: accountData.account_firstname +" " + accountData.account_lastname,
+    nav,
+    errors: null,
+    myUsers,
+    messageData,
+    name2,
+    linktable
+  })
+}
+
+//Export for use
 module.exports = mesCont

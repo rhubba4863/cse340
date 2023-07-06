@@ -75,7 +75,7 @@ async function registerIntoInventory(classification_id, inv_make, inv_model,
 }
 
 /* ***************************
- *  Update Inventory Data (Update from edits)
+ *  Update Inventory Data (Update from edits) console.log("EGG2 "+ req+"PP")
  * ************************** */
 async function updateInventory(
   inv_id,

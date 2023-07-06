@@ -1,4 +1,4 @@
-const regValidate = require('../utilities/account-validation')
+const regValidate = require('../utilities/message-validation')
 
 // Needed Resources
 const express = require("express")
@@ -14,7 +14,20 @@ const utilities = require("../utilities")
 * Final Project
 * **********************************/
 router.get("/message/messageinbox", 
+utilities.checkUserPermission,
 utilities.handleErrors(messageController.buildMessageInbox))
+
+router.post("/message/messageinbox", 
+utilities.checkUserPermission,
+utilities.handleErrors(messageController.markAsRead))
+
+/***********************************
+* Archive a message
+* **********************************/
+router.post("/message/archiveamessage/:message_id", 
+utilities.checkUserPermission,
+utilities.handleErrors(messageController.archiveCurrentMessage))
+
 
 // // Route to inbox
 // router.get('/inbox/:login_id', (req, res, next) => {
@@ -23,51 +36,90 @@ utilities.handleErrors(messageController.buildMessageInbox))
 // }, Util.checkLogin, Util.handleErrors(messageController.buildInbox));
 
 router.get("/message/newmessagepage", 
+utilities.checkUserPermission,
 utilities.handleErrors(messageController.buildNewMessagePage))
 
 router.post(
   "/message/newmessagepage",
+  utilities.checkUserPermission,
+  // regValidate.newMessageRules(),
+  // regValidate.checkMessageData,
   utilities.handleErrors(messageController.registerNewMessage)
 )
 
+/***********************************
+* Reply to 1 existing message
+* **********************************/
+router.post(
+  "/message/replybeingsent",
+  utilities.checkUserPermission,
+  utilities.handleErrors(messageController.registerNewMessageFromReply)
+)
+
+
+/***********************************
+* View 1 message and its details
+* **********************************/
 router.get(
   "/message/messageinnerinfo/:message_id", 
+  utilities.checkUserPermission,
   utilities.handleErrors(messageController.buildExistingMessagePage)
 )
 
-// router.post(
-//   "/delete",
-//   utilities.checkUserPermission,
-//   utilities.handleErrors(invController.deleteItem)
-// )
-
-
-// router.post(
-//   "/message/delete/:message_id",
-//   utilities.handleErrors(messageController.deleteMessage)
-// )
-
-
-
-
-
+/***********************************
+* Delete 1 message (and return to inbox)
+* **********************************/
 router.post(
-  "/delete2",
-  utilities.handleErrors(messageController.deleteMessage)
+  "/message/deletion/:message_id", 
+  utilities.checkUserPermission,
+  utilities.handleErrors(messageController.deleteCurrentMessagePage)
 )
 
-// COMPARE THE "GET()" BELOW TO RUN FOR THE LATER POSTS
-// router.get(
-//   "/message/edit/:message_id", 
-//   utilities.handleErrors(messageController.buildExistingMessagePage)
-// )
-
+/***********************************
+* Reply to 1 message (and return to inbox)
+* **********************************/
 router.post(
-  "/message/edit",
-  utilities.handleErrors(messageController.markAsRead)
+  "/message/reply/:message_id", 
+  utilities.checkUserPermission,
+  utilities.handleErrors(messageController.replyToCurrentMessage)
 )
 
+/***********************************
+* Mark 1 message as read (and return to inbox)
+* **********************************/
+router.post(
+  "/message/edit/:message_id",
+  utilities.checkUserPermission,
+  utilities.handleErrors(messageController.markAsRead22)
+)
+
+/***********************************
+* archive 1 message (and return to inbox)
+* **********************************/
 router.get("/message/archive", 
-utilities.handleErrors(messageController.buildArchiveMessagePage))
+  utilities.checkUserPermission,
+  utilities.handleErrors(messageController.buildArchiveMessagePage)
+)
+
+
+
+
+
+
+
+/***********************************
+* Open all archived messages/inbox
+* **********************************/
+router.get("/message/messagearchiveinbox", 
+utilities.handleErrors(messageController.buildMessageArchiveInbox))
+
+/***********************************
+* View 1 archived message and its details
+* **********************************/
+router.get(
+  "/message/messagearchiveinnerinfo/:message_id", 
+  utilities.handleErrors(
+    messageController.buildExistingArchiveMessagePage)
+)
 
 module.exports = router; 

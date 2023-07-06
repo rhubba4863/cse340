@@ -159,8 +159,8 @@ validate.checkInventoryData = async (req, res, next) => {
       nav,
       brands, //If fails include the brands to show eror
       classification_id,
-    inv_make,
-    inv_model,
+      inv_make,
+      inv_model,
     inv_description,
     inv_image,
     inv_thumbnail,

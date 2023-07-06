@@ -1,0 +1,48 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- The Message Block: Ex if an error appears -->
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+
+<h3>Original Message:</h3>
+<p class="messageInfoPiece"><b>Subject: </b><%= messageData.message_subject %></p>
+<p class="messageInfoPiece"><b>From: </b><%= messageData.account_firstname %> <%= accountData.account_lastname %></p>
+<p class="messageInfoPiece"><b>Message: </b> <%= messageData.message_body %></p>
+
+<form action="/message/replybeingsent" method="post">
+  <input type="hidden" id="messId" name="message_id" value="<%= messageData.message_id %>"> 
+  <input type="hidden" id="messTo" name="message_to" value="<%= messageData.account_to %>"> 
+  <input type="hidden" id="messFrom" name="message_from" value="<%= accountData.account_from %>"> 
+  <input type="hidden" id="messSubject" name="message_subject" value="<%= messageData.account_subject %>">
+
+  <p>Helping <% locals.messageData.message_subject%> ME</p>
+
+
+  <h3>Your Reply:</h3>
+
+  <label class="messageInfoPiece" for="mesBody">Description</label><br>
+  <div class="messageInfoPiece">
+    <textarea rows="4" required name="message_body" 
+    minlength="1" placeholder="Min of 1 character" id="mesBody">
+    <%= locals.message_body %>
+    </textarea>
+  </div>
+  <br>
+
+  <button type="submit" id="buttonClicked">Submit</button>
+
+</form>
+
+<!-- <input type="submit" value="Submit34"> -->

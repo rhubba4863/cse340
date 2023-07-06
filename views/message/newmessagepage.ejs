@@ -4,7 +4,7 @@
   res.redirect('/')
 } %>
 
-<h3>This is an internal system only. Recipient are limited to the threee generic accounts</h3>
+<h3>This is an internal system only. Recipient are limited to the three generic accounts</h3>
 
 <%- messages() %>
 
@@ -20,7 +20,7 @@
   <label for="recipient_id">To:</label><br>
   <%- myUsers %>
   <br><label for="recipient">Subject:</label><br>
-  <input type="text" required name="message_subject" value="PARKER-CHANGE" placeholder="Min of 1 character"     
+  <input type="text" required name="message_subject" placeholder="Min of 1 character"     
   minlength="1" id="recipient"><br>
 
   <label for="mesBody">Description</label><br>

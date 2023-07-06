@@ -34,20 +34,6 @@ Util.getNav = async function (req, res, next) {
   list += "</ul>"
   return list
 }
-
-Util.countMessages = async function (){
-  let data = await mesModel.getMessages()
-
-  //accModel
-}
-
-//First try all messages, then those for 
-//specific guy
-Util.getMessages = async function (){
-  let data = await mesModel.getMessages()
-
-  //accModel
-}
     
 /* ************************
  * Constructs the dropdown HTML list

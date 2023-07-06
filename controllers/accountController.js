@@ -89,9 +89,6 @@ async function buildAccount(req, res, next) {
 
   let nav = await utilities.getNav()
   let manageVersion = await getManagementPage(data)
-  console.log("-----------------------------------------------------")
-
-  console.log("Pigs"+data.account_firstname)
 
   res.render("./account/account-Management", {
     title: "Account Management",
@@ -104,7 +101,7 @@ async function buildAccount(req, res, next) {
 async function getManagementPage (data) {
   let rank = data.account_type
   let name = data.account_firstname
-  let unread= (await mesModel.getMessages()).rows.length
+  let unread= (await mesModel.getUnreadMessages(data.account_id)).rows.length
   let view = "";
 
   //PARKER XXX

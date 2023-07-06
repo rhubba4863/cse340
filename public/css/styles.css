@@ -544,6 +544,21 @@ input:focus:required:invalid{
   background-color: #dddddd;
 }
 
+.messageInfoPiece{
+  margin: 0px;
+  max-width: 500px;
+
+  padding-left: 50px;
+}
+
+.overallMessage{
+  padding-left: 50px;
+  margin-left: 50px;
+  border-left: 50px;
+}
+
+
+
 /* text adjusted to picture - https://www.geeksforgeeks.org/how-to-wrap-the-text-around-an-image-using-html-and-css/ 
  * image position - https://www.freecodecamp.org/news/css-responsive-image-tutorial/
  */
