@@ -227,32 +227,22 @@ invCont.updateInventory  = async function (req, res) {
 
     let nav = await utilities.getNav()
     const { 
-      classification_id,
-      inv_make,
-      inv_model,
-      inv_description,
-      inv_image,
-      inv_thumbnail,
-      inv_price,
-      inv_year,
-      inv_miles,
-      inv_color,
+      classification_id, inv_make,
+      inv_model,         inv_description,
+      inv_image,         inv_thumbnail,
+      inv_price,         inv_year,
+      inv_miles,         inv_color,
       inv_id,
       //All peices transferred: first_name, last_name...
     } = req.body
 
     //Where the data is sent to the modal
     const updateResult = await invModel.registerIntoInventory(
-      classification_id,
-      inv_make,
-      inv_model,
-      inv_description,
-      inv_image,
-      inv_thumbnail,
-      inv_price,
-      inv_year,
-      inv_miles,
-      inv_color,
+      classification_id, inv_make,
+      inv_model,         inv_description,
+      inv_image,         inv_thumbnail,
+      inv_price,         inv_year,
+      inv_miles,         inv_color,
       inv_id,
       //All peices transferred: first_name, last_name
     )

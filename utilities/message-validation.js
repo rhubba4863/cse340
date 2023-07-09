@@ -4,6 +4,8 @@ const validate = {}
 //Carrot
 const invModel = require("../models/inventory-model")
 const accModel = require("../models/account-model.js")
+const mesCont = require("../controllers/messageController")
+
 
 /*  **********************************
  *  Inventory Data Validation Rules
@@ -16,8 +18,12 @@ validate.newMessageRules = () => {
     .isNumeric()
     .custom(async value => {
       // Get users 
+      console.log("DOGGGS 0 "+"Hear")
       const usersResult = await accModel.getUsers();
       const accounts = usersResult.rows;
+      const myUsers = await mesCont.buildTheUserList()
+
+      console.log("DOG EAT DOG "+JSON.stringify(accounts))
 
       console.log("DOGGGS 1 "+"Hear")
       //JSON.stringify(req.body)
@@ -25,7 +31,8 @@ validate.newMessageRules = () => {
       console.log("DOGGGS 2 "+"Hear")
       // Check if the submitted value exists in the user array
       if (!accounts.find(c => c.account_id == value)) {
-        console.log("DOGGGS 3 "+value+"Hear")
+        console.log("DOGGGS 3 X"+value+"X")
+
 
         throw new Error('Invalid Account ID');
       }
@@ -65,17 +72,22 @@ validate.checkMessageData = async (req, res, next) => {
     //All peices transferred: first_name, last_name...
   } = req.body
   
+  console.log("OCEAN - x"+message_body+"x")
+
+
   let errors = []
   errors = validationResult(req)
 
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
     let brands = await utilities.buildClassificationList()
+    const myUsers = await utilities.buildTheUserList()
     res.render("message/newmessagepage", {
       errors,
       title: "PARKER: New Message", //Keep same title
       nav,
       brands, //If fails include the brands to show eror
+      myUsers,
       message_id,
       message_subject,
       message_body,

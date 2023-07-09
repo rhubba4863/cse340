@@ -16,15 +16,30 @@
   </ul>
 <% } %>
 
+<p>HH "<%=locals.message_subject%>"</p>
+<p>HH "<%=locals.message_body%>"</p>
+<p>HH "<%=locals.message_to%>"</p>
+<p>HH "<%=locals.message_from%>"</p>
+
 <form  action="/message/newmessagepage" method="post">
   <label for="recipient_id">To:</label><br>
   <%- myUsers %>
   <br><label for="recipient">Subject:</label><br>
-  <input type="text" required name="message_subject" placeholder="Min of 1 character"     
-  minlength="1" id="recipient"><br>
+  <input type="text" required name="message_subject" 
+  placeholder="Min of 1 character"     
+  minlength="1" id="recipient"
+  value="<%= locals.message_subject %>"><br>
 
   <label for="mesBody">Description</label><br>
-  <textarea rows="4" required name="message_body" minlength="1" placeholder="Min of 1 character" id="mesBody"><%= locals.message_body %>
+  <textarea rows="4" required name="message_body" minlength="1" 
+    placeholder="Min of 1 character" id="mesBody" 
+    value="<%= locals.message_body %>">
     </textarea><br>
+
+    <p>HH "<%=locals.message_subject%>"</p>
+    <p>HH "<%=locals.message_body%>"</p>
+    <p>HH "<%=locals.message_to%>"</p>
+    <p>HH "<%=locals.message_from%>"</p>
+ 
   <button>Send</button>
 </form>

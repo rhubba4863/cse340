@@ -19,7 +19,7 @@ utilities.handleErrors(messageController.buildMessageInbox))
 
 router.post("/message/messageinbox", 
 utilities.checkUserPermission,
-utilities.handleErrors(messageController.markAsRead))
+utilities.handleErrors(messageController.markAsRead22))
 
 /***********************************
 * Archive a message
@@ -42,19 +42,25 @@ utilities.handleErrors(messageController.buildNewMessagePage))
 router.post(
   "/message/newmessagepage",
   utilities.checkUserPermission,
-  // regValidate.newMessageRules(),
-  // regValidate.checkMessageData,
+  regValidate.newMessageRules(),
+  regValidate.checkMessageData,
   utilities.handleErrors(messageController.registerNewMessage)
 )
 
+
+
 /***********************************
-* Reply to 1 existing message
+* REPLY: After "Submit" is selected, that data will 
+* be given to database
 * **********************************/
 router.post(
-  "/message/replybeingsent",
+  "/message/replybeingsent/:message_id",
   utilities.checkUserPermission,
   utilities.handleErrors(messageController.registerNewMessageFromReply)
 )
+
+
+
 
 
 /***********************************
@@ -67,25 +73,16 @@ router.get(
 )
 
 /***********************************
-* Delete 1 message (and return to inbox)
+* 1) Reply to 1 message (and return to inbox)
 * **********************************/
-router.post(
-  "/message/deletion/:message_id", 
-  utilities.checkUserPermission,
-  utilities.handleErrors(messageController.deleteCurrentMessagePage)
-)
-
-/***********************************
-* Reply to 1 message (and return to inbox)
-* **********************************/
-router.post(
+router.get(
   "/message/reply/:message_id", 
   utilities.checkUserPermission,
   utilities.handleErrors(messageController.replyToCurrentMessage)
 )
 
 /***********************************
-* Mark 1 message as read (and return to inbox)
+* 2) Mark 1 message as read (and return to inbox)
 * **********************************/
 router.post(
   "/message/edit/:message_id",
@@ -94,14 +91,21 @@ router.post(
 )
 
 /***********************************
-* archive 1 message (and return to inbox)
+* 3) archive 1 message (and return to inbox)
 * **********************************/
 router.get("/message/archive", 
   utilities.checkUserPermission,
-  utilities.handleErrors(messageController.buildArchiveMessagePage)
+  utilities.handleErrors(messageController.buildExistingArchiveMessagePage)
 )
 
-
+/***********************************
+* 4) Delete 1 message (and return to inbox)
+* **********************************/
+router.post(
+  "/message/deletion/:message_id", 
+  utilities.checkUserPermission,
+  utilities.handleErrors(messageController.deleteCurrentMessagePage)
+)
 
 
 
@@ -110,8 +114,10 @@ router.get("/message/archive",
 /***********************************
 * Open all archived messages/inbox
 * **********************************/
-router.get("/message/messagearchiveinbox", 
-utilities.handleErrors(messageController.buildMessageArchiveInbox))
+router.get(
+  "/message/messagearchiveinbox", 
+  utilities.handleErrors(messageController.buildMessageArchiveInbox)
+)
 
 /***********************************
 * View 1 archived message and its details
