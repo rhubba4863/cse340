@@ -47,18 +47,15 @@ validate.newMessageRules = () => {
 }
 
 /* ******************************
- * Check data and return errors or continue to registration
+ * Check data and return errors or continue to messaging
  * ***************************** */
 validate.checkMessageData = async (req, res, next) => {
   const { 
-    message_id,
-    message_subject,
     message_body,
     message_created,
     message_to,
     message_from,
     message_read,
-    message_archived,
     //All peices transferred: first_name, last_name...
   } = req.body
   
@@ -69,9 +66,9 @@ validate.checkMessageData = async (req, res, next) => {
     let nav = await utilities.getNav()
     let brands = await utilities.buildClassificationList()
     const myUsers = await utilities.buildTheUserList()
-    res.render("message/newmessagepage", {
+    res.render("message/messageinbox", {
       errors,
-      title: ": New Message", //Keep same title
+      title: ": Inbox", //Keep same title
       nav,
       brands, //If fails include the brands to show eror
       myUsers,
@@ -82,7 +79,6 @@ validate.checkMessageData = async (req, res, next) => {
       message_to,
       message_from,
       message_read,
-      message_archived,
     })
     return
   }
@@ -117,17 +113,20 @@ validate.checkReplyMessageData = async (req, res, next) => {
     message_from,
     message_read,
     message_archived,
+    messageTasking,
+    messageTable,
     //All peices transferred: first_name, last_name...
   } = req.body
   
   let errors = []
   errors = validationResult(req)
 
+  console.log("Justice league")
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
     let brands = await utilities.buildClassificationList()
     const myUsers = await utilities.buildTheUserList()
-    res.render("message/", {
+    res.render("message/messageinbox", {
       errors,
       title: ": Message Reply", //Keep same title
       nav,
@@ -141,7 +140,10 @@ validate.checkReplyMessageData = async (req, res, next) => {
       message_from,
       message_read,
       message_archived,
+      messageTasking,
+      messageTable,
     })
+
     return
   }
   next()
