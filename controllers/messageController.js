@@ -11,17 +11,13 @@ const mesCont = {}
 *  Main Message Page
 * *************************************** */
 mesCont.buildMessageInbox = async function (req, res, next) {
-  console.log("FREDGEORGE1")
   let nav = await utilities.getNav()
-  console.log("1) Building the inbox")
   const accountData = await accountModel.getAccountByID(res.locals.accountData.account_id)
   let messageTable = "";
   let messageTasking = ''
   //let messageTable = await utilities.buildMessageList;
-  console.log("2A) Building the inbox")
 
   try{
-    console.log("2) Building the inbox")
     let data = await mesModel.getMessagesForUser(accountData)
 
     let archive= (await mesModel.getArchiveMessagesForUserByID(accountData.account_id)).rows.length
@@ -73,14 +69,9 @@ mesCont.buildMessageInbox = async function (req, res, next) {
 }
 
 mesCont.buildTheUserList = async function(req, res, next){
-  console.log("FREDGEORGE2")
   const accModel = require("../models/account-model.js")
   let data = await accModel.getUsers()
-  console.log("FREDGEORGE2-A")
   let classifications = '<select name="message_to" id="accountList">'
-  console.log("FREDGEORGE2-B")
-  console.log("FREDGEORGE2-C")
-
   classifications +=  '<option value="none" selected disabled hidden>Select a recipient</option>'
   data.rows.forEach(user => {
     classifications += '<option value="' + user.account_id + '">' + user.account_firstname 
@@ -94,12 +85,9 @@ mesCont.buildTheUserList = async function(req, res, next){
 *  Deliver new message view
 * *************************************** */
 mesCont.buildNewMessagePage = async function (req, res, next) {
-  console.log("FREDGEORGE3")
   let nav = await utilities.getNav()
   const myUsers = await mesCont.buildTheUserList()
-  //const myUsers = await utilities.buildTheUserList()
 
-  console.log("BENBEN")
   res.render("./message/newmessagepage", {
     title: "New Message",
     nav,
@@ -114,18 +102,12 @@ mesCont.buildNewMessagePage = async function (req, res, next) {
 /* ****************************************
 *  Main Message Page
 * *************************************** */
-mesCont.buildMessageArchiveInbox = async function (req, res, next) {
-  console.log("FREDGEORGE4")
-  
+mesCont.buildMessageArchiveInbox = async function (req, res, next) { 
   let nav = await utilities.getNav()
-  console.log("1) Building the inbox")
   const accountData = await accountModel.getAccountByID(res.locals.accountData.account_id)
   let messageTable = "";
-  //let messageTable = await utilities.buildMessageList;
-  console.log("2A) Building the inbox")
 
   try{
-    console.log("2) Building the inbox")
     let data = await mesModel.getArchiveMessagesForUser(accountData)
 
     messageTable += '<tbody>'; 
@@ -164,7 +146,7 @@ mesCont.buildMessageArchiveInbox = async function (req, res, next) {
 
     
   res.render("./message/archive", {
-    title: "Inbox",
+    title: "Archive Inbox",
     nav,
     errors: null,
     messageTable,
@@ -175,7 +157,6 @@ mesCont.buildMessageArchiveInbox = async function (req, res, next) {
 *  Deliver 1 normal message view
 * *************************************** */
 mesCont.buildExistingMessagePage = async function (req, res, next) {
-  console.log("FREDGEORGE5")
   let nav = await utilities.getNav()
   const myUsers = await mesCont.buildTheUserList()
   const accountData = await accountModel.getAccountByID(res.locals.accountData.account_id)
@@ -214,8 +195,6 @@ mesCont.buildExistingMessagePage = async function (req, res, next) {
 }
 
 mesCont.registerNewMessage = async function (req, res, next) {
-  console.log("FREDGEORGE6")
-  console.log("BEN HUR1")
   let nav = await utilities.getNav()
   
   let { 
@@ -225,8 +204,6 @@ mesCont.registerNewMessage = async function (req, res, next) {
     message_archived,
     //All peices transferred: ...
   } = req.body
-
-  console.log("BEN HUR2")
 
   message_from = res.locals.accountData.account_id  
 
@@ -242,8 +219,6 @@ mesCont.registerNewMessage = async function (req, res, next) {
   const messageTable = await utilities.buildClassificationList()
   const myUsers = await mesCont.buildTheUserList()
    
-  console.log("FAILURE"+mesResult+"XXX")
-
   //if (!mesResult) to test the else statement
   if (mesResult) {
     //RPH: Recall so new message Inserted
@@ -279,7 +254,6 @@ mesCont.registerNewMessage = async function (req, res, next) {
 * Build the reply message view  
 * ************************************/ 
 mesCont.buildReplyMessagePage = async function (req, res, next) {    
-  console.log("FREDGEORGE-7")
   const message_id = req.params.message_id;     
   let nav = await Util.getNav();     
   let messageData = await mesModel.getMessage(message_id); 
@@ -299,8 +273,6 @@ mesCont.buildReplyMessagePage = async function (req, res, next) {
 * Send the reply to the database, then return to main page  
 * ************************************/ 
 mesCont.registerNewMessageFromReply = async function (req, res, next) {
-  console.log("FREDGEORGE-8")
-  console.log("JURASSIC PARK1")
   let nav = await utilities.getNav()
   let { 
     message_subject, message_body, 
@@ -312,30 +284,13 @@ mesCont.registerNewMessageFromReply = async function (req, res, next) {
 
   //Edit the message into a response
   message_subject = "RE: "+ message_subject
-  //const oneAccount = await accountModel.getAccountByID(res.locals.accountData.account_id)
-  // message_to
-  // message_from
-
-  console.log("JURASSIC PARK2" + JSON.stringify(req.body))
-
-  console.log("PRINCE1:"+ message_subject+"X")
-  console.log("PRINCE2:"+ message_body+"X")
-  console.log("PRINCE3:"+ message_created+"X")
-  console.log("PRINCE4:"+ message_to+"X")
-  console.log("PRINCE5:"+ message_from+"X")
-  console.log("PRINCE6:"+ message_read+"X")
-  console.log("PRINCE7:"+ message_archived+"X")
-
   let temp;
 
   temp = message_from;
   message_from = message_to;
   message_to = temp;
-
-  //console.log("MAGIC8 "+res.locals.accountData.account_firstname) 
   
   message_from = res.locals.accountData.account_id  
-  console.log("PRINCE8"+ message_from+"X")
 
   //Where the data is sent to the modal
   const mesResult = await mesModel.registerIntoMessages(
@@ -364,10 +319,8 @@ mesCont.registerNewMessageFromReply = async function (req, res, next) {
     //     errors: null,
     //   })
 
-    console.log("CHIPMUNK 1:") 
     res.redirect("/message/messageinbox")
   } else {
-    console.log("CHIPMUNK 2:")
     const myUsers = await mesCont.buildTheUserList()
 
 
@@ -386,8 +339,6 @@ mesCont.registerNewMessageFromReply = async function (req, res, next) {
  *  Archive this message
  * ************************** */
 mesCont.archiveCurrentMessage = async function (req, res, next) {
-  console.log("FREDGEORGE-9")
-  //const inv_id = parseInt(req.body.inv_id)
   let nav = await utilities.getNav()
 
   const mess_id = req.params.message_id 
@@ -406,7 +357,6 @@ mesCont.archiveCurrentMessage = async function (req, res, next) {
  *  Delete opened row
  * ************************** */
 mesCont.deleteCurrentMessagePage = async function (req, res, next) {
-  console.log("FREDGEORGE-10")
   //const inv_id = parseInt(req.body.inv_id)
   let nav = await utilities.getNav()
 
@@ -426,8 +376,6 @@ mesCont.deleteCurrentMessagePage = async function (req, res, next) {
  *  Reply to message
  * ************************** */
 mesCont.replyToCurrentMessage = async function (req, res, next) {
-  console.log("FREDGEORGE-11")
-  //const inv_id = parseInt(req.body.inv_id)
   let nav = await utilities.getNav()
   const mess_id = req.params.message_id 
   const myUsers = await mesCont.buildTheUserList()
@@ -436,10 +384,6 @@ mesCont.replyToCurrentMessage = async function (req, res, next) {
 
   const message = await mesModel.getMessageFeatures(mess_id)
     
-  console.log("FANG0 ")
-  console.log("FANG5 "+ accountData.account_id)
-  console.log("FANG5 "+ JSON.stringify(messageData))
-
   JSON.stringify(messageData)
   
   res.render("message/replynewmessagepage", {
@@ -469,8 +413,6 @@ mesCont.replyToCurrentMessage = async function (req, res, next) {
  *  Mark as read
  * ************************** */
 mesCont.markAsRead22 = async function (req, res, next) {
-  console.log("FREDGEORGE-12")
-
   const message_id = parseInt(req.params.message_id)
   let nav = await utilities.getNav()
 
@@ -481,8 +423,6 @@ mesCont.markAsRead22 = async function (req, res, next) {
 
 
 mesCont.buildUserList = async function(req, res, next){
-  console.log("FREDGEORGE-13")
-
   const accModel = require("../models/account-model.js")
   let data = await accModel.getUsers()
   let classifications = '<select name="message_to" id="accountList">'
@@ -496,8 +436,6 @@ mesCont.buildUserList = async function(req, res, next){
 }
 
 mesCont.getFullNameFromId = async function(id){
-  console.log("FREDGEORGE-4")
-
   let anAccount = await accountModel.getAccountByID(id)
   let name = anAccount.account_firstname + " "+ anAccount.account_lastname
   return name;

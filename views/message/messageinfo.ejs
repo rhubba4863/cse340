@@ -14,18 +14,21 @@
   </ul>
 <% } %>
 
-<p class="overallMessage">
-  <p class="messageInfoPiece"><b>Subject: </b><%= messageData.message_subject %></p>
-  <p class="messageInfoPiece"><b>From: </b><%= name2 %></p>
-  <p class="messageInfoPiece"><b>Message:</b><br></p>
-  <p class="messageInfoPiece"><%= messageData.message_body %></p>
-</p>
+<div class="outerBoxBackground">
+  <div class="innerboxBackground">
+    <p class="overallMessage">
+    <p class="messageInfoPiece"><b>Subject: </b><%= messageData.message_subject %></p>
+    <p class="messageInfoPiece"><b>From: </b><%= name2 %></p>
+    <p class="messageInfoPiece"><b>Message:</b><br></p>
+    <p class="messageInfoPiece"><%= messageData.message_body %></p>
+  </p>
 
-<p><%= messageData.messsage_id %></p>
+  <p><%= messageData.messsage_id %></p>
 
-<%- linktable %>
+  <%- linktable %>
 
-
+  </div>
+</div>
 
 
 

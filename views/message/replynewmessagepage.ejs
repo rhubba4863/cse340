@@ -15,30 +15,35 @@
   </ul>
 <% } %>
 
+<div class="outerBoxBackground">
+  <div class="innerboxBackground">
+    <h3>Original Message:</h3>
+    <p class="messageInfoPiece"><b>Subject: </b><%= messageData.message_subject %></p>
+    <p class="messageInfoPiece"><b>From: </b><%= messageData.account_firstname %> <%= accountData.account_lastname %></p>
+    <p class="messageInfoPiece"><b>Message: </b> <%= messageData.message_body %></p>
 
-<h3>Original Message:</h3>
-<p class="messageInfoPiece"><b>Subject: </b><%= messageData.message_subject %></p>
-<p class="messageInfoPiece"><b>From: </b><%= messageData.account_firstname %> <%= accountData.account_lastname %></p>
-<p class="messageInfoPiece"><b>Message: </b> <%= messageData.message_body %></p>
+    <form action="/message/replybeingsent/<$= messageData.message_id %>" method="post">
+      <input type="hidden" name="message_id" value="<%= locals.messageData.message_id %>"> 
+      <input type="hidden"  name="message_to" value="<%= locals.messageData.message_to %>"> 
+      <input type="hidden"  name="message_from" value="<%= locals.messageData.message_from %>"> 
+      <input type="hidden"  name="message_subject" value="<%= locals.messageData.message_subject %>">
 
-<form action="/message/replybeingsent/<$= messageData.message_id %>" method="post">
-  <input type="hidden" name="message_id" value="<%= locals.messageData.message_id %>"> 
-  <input type="hidden"  name="message_to" value="<%= locals.messageData.message_to %>"> 
-  <input type="hidden"  name="message_from" value="<%= locals.messageData.message_from %>"> 
-  <input type="hidden"  name="message_subject" value="<%= locals.messageData.message_subject %>">
+      <h3>Your Reply:</h3>
 
-  <h3>Your Reply:</h3>
+      <label class="messageInfoPiece" for="mesBody">Description</label><br>
+      <div class="messageInfoPiece">
+        <textarea rows="4" required name="message_body" 
+        minlength="1" placeholder="Min of 1 character" id="mesBody" 
+        value="<%= locals.message_body %>"></textarea>
+      </div>
+      <br>
 
-  <label class="messageInfoPiece" for="mesBody">Description</label><br>
-  <div class="messageInfoPiece">
-    <textarea rows="4" required name="message_body" 
-    minlength="1" placeholder="Min of 1 character" id="mesBody" value="<%= locals.message_body %>">
-    </textarea>
+      <button type="submit" id="buttonClicked">Submit</button>
+
+    </form>
   </div>
-  <br>
+</div>
 
-  <button type="submit" id="buttonClicked">Submit</button>
 
-</form>
 
 <!-- <input type="submit" value="Submit34"> -->

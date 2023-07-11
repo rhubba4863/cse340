@@ -29,11 +29,6 @@ utilities.checkUserPermission,
 utilities.handleErrors(messageController.archiveCurrentMessage))
 
 
-// // Route to inbox
-// router.get('/inbox/:login_id', (req, res, next) => {
-//   console.log("Entered /inbox/:login_id route");
-//   next();
-// }, Util.checkLogin, Util.handleErrors(messageController.buildInbox));
 
 router.get("/message/newmessagepage", 
 utilities.checkUserPermission,
@@ -56,6 +51,8 @@ router.post(
 router.post(
   "/message/replybeingsent/:message_id",
   utilities.checkUserPermission,
+  regValidate.messageReplyRules(),
+  regValidate.checkReplyMessageData,
   utilities.handleErrors(messageController.registerNewMessageFromReply)
 )
 
@@ -115,7 +112,8 @@ router.post(
 * Open all archived messages/inbox
 * **********************************/
 router.get(
-  "/message/messagearchiveinbox", 
+  "/message/messagearchiveinbox",
+  utilities.checkUserPermission, 
   utilities.handleErrors(messageController.buildMessageArchiveInbox)
 )
 
@@ -124,6 +122,7 @@ router.get(
 * **********************************/
 router.get(
   "/message/messagearchiveinnerinfo/:message_id", 
+  utilities.checkUserPermission,
   utilities.handleErrors(
     messageController.buildExistingArchiveMessagePage)
 )
